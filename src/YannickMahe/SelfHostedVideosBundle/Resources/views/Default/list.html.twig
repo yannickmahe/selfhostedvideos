@@ -1,0 +1,11 @@
+{% extends "YannickMaheSelfHostedVideosBundle::layout.html.twig" %}
+
+{% block title %}List {{terms}}{% endblock %}
+
+{% block menu %}
+   {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': 'list', 'q': terms} %}
+{% endblock %}
+
+{% block content %}
+<h1>List {{terms}}</h1>
+{% endblock %}

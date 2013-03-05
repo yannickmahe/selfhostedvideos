@@ -1,3 +1,11 @@
 yannick_mahe_self_hosted_videos_homepage:
     pattern:  /
     defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:index }
+
+yannick_mahe_self_hosted_videos_list:
+    pattern:  /list
+    defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:list }
+
+yannick_mahe_self_hosted_videos_video:
+    pattern:  /list/{video_id}
+    defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:video }

@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+
+{% block head %}{% endblock %}
+
+{% block title 'Self Hosted Videos' %}
+
+{% block body %}
+
+    {% block menu %}
+       {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': ''} %}
+    {% endblock %}
+
+    {% block content %}{% endblock %}
+{% endblock %}

@@ -1,1 +1,11 @@
-Hellott
+{% extends "YannickMaheSelfHostedVideosBundle::layout.html.twig" %}
+
+{% block title 'Home' %}
+
+{% block menu %}
+   {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': 'home', 'q': ''} %}
+{% endblock %}
+
+{% block content %}
+<h1>Home</h1>
+{% endblock %}
