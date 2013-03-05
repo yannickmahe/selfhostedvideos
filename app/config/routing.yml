@@ -1,0 +1,4 @@
+yannick_mahe_self_hosted_videos:
+    resource: "@YannickMaheSelfHostedVideosBundle/Resources/config/routing.yml"
+    prefix:   /
+
