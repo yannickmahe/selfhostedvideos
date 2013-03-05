@@ -1,0 +1,7 @@
+parameters:
+#    yannick_mahe_self_hosted_videos.example.class: YannickMahe\SelfHostedVideosBundle\Example
+
+services:
+#    yannick_mahe_self_hosted_videos.example:
+#        class: %yannick_mahe_self_hosted_videos.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

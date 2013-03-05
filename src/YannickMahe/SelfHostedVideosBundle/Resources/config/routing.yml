@@ -1,0 +1,3 @@
+yannick_mahe_self_hosted_videos_homepage:
+    pattern:  /
+    defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:index }
