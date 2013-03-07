@@ -10,14 +10,20 @@
 
 {% block content %}
 <div class="page-header">
-<h1>{{ video.name }}</h1>
+<h1>{{ video.name|truncate(20,true,'...') }}</h1>
 </div>
 
-<div class="flowplayer" style="width: {{ video.width }}px; height: {{ video.height }}px">
-   <video>
-      <source type="video/mp4" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}"/>
-   </video>
+<div style="text-align:center;">
+	<div class="flowplayer" style="width: {{ video.width }}px; height: {{ video.height }}px">
+	   <video>
+	      <source type="video/mp4" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}"/>
+	   </video>
+	</div>
 </div>
+<hr />
+<a class="btn btn-primary" href="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}">
+	<i class="icon-download icon-white"></i> Download {{ video.name }}
+</a>
 {% endblock %}
 
 {% block page_javascripts %}
