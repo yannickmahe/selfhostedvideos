@@ -45,7 +45,7 @@ class DefaultController extends Controller
                 $logger->pushHandler(new NullHandler());
 
                 $ffmpeg = FFMpeg::load($logger);
-                $video->generateThumbnail($ffmpeg, 200, 300);//TODO: put thumbnail size in conf
+                $video->generateThumbnail($ffmpeg, 300, 200);//TODO: put thumbnail size in conf
 
                 $ffprobe = FFProbe::load($logger);
                 $video->setDimensions($ffprobe);

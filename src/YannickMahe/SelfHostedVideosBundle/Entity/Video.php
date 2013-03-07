@@ -224,7 +224,7 @@ class Video
         return $this->getWebPath().'.jpg';
     }
 
-    public function generateThumbnail($ffmpeg, $maxHeight, $maxHeight){
+    public function generateThumbnail($ffmpeg, $maxWidth, $maxHeight){
         if(!is_file($this->getAbsolutePath())){
             Throw new Exception("Video hasn't been uploaded");
         }
@@ -233,7 +233,35 @@ class Video
                ->extractImage(5,$this->getThumbnailAbsolutePath());
 
         //Resize to required dimensions, keeping ratio
-        //TODO
+        $size = getimagesize($this->getThumbnailAbsolutePath());
+        $sourceWidth = $size[0];
+        $sourceHeight = $size[1];
+
+        $sourceRatio = $sourceWidth / $sourceHeight;
+        $targetRatio = $maxWidth / $maxHeight;
+
+        if ( $sourceRatio > $targetRatio ) {
+            $scale = $sourceWidth / $maxWidth;
+        } else {
+            $scale = $sourceHeight / $maxHeight;
+        }
+
+        $resizeWidth = (int)($sourceWidth / $scale);
+        $resizeHeight = (int)($sourceHeight / $scale);
+
+        $marginLeft = (int)(($maxWidth - $resizeWidth) / 2);
+        $marginTop = (int)(($maxHeight - $resizeHeight) / 2);
+
+        $new_image = imagecreatetruecolor($maxWidth, $maxHeight);
+        
+        imagecolortransparent($new_image, imagecolorallocate($new_image, 0, 0, 0));
+        imagealphablending($new_image, false);
+        imagesavealpha($new_image, true);
+        
+        imagecopyresampled($new_image, imagecreatefromjpeg($this->getThumbnailAbsolutePath()), 
+                            $marginLeft, $marginTop, 0, 0, $resizeWidth, $resizeHeight, $sourceWidth, $sourceHeight);
+        
+        imagejpeg($new_image, $this->getThumbnailAbsolutePath());
     }
 
     public function setDimensions($ffprobe){
