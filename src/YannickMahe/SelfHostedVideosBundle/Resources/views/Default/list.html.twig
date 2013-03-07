@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block content %}
+<div class="page-header">
 <h1>
 	{% if terms != '' %}
 		Search for "{{ terms }}"
@@ -20,11 +21,12 @@
 		All videos
 	{% endif %}
 </h1>
+</div>
 
 {% if videos|length > 0 %}
-	<ul>
+	<ul class="thumbnails">
 		{% for video in videos %}
-			<li>{% include "YannickMaheSelfHostedVideosBundle:Default:thumbnail.html.twig" with {'video': video} %}</li>
+			<li class="span4">{% include "YannickMaheSelfHostedVideosBundle:Default:thumbnail.html.twig" with {'video': video} %}</li>
 		{% endfor %}
 	</ul>
 {% endif %}

@@ -1,6 +1,18 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}
+	<style>
+      body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+      }
+      .thumbnails {
+	    text-align: center;
+	  }
+	  .thumbnails .caption{
+	  	text-align: left;
+	  }
+	</style>
 	{% include 'BraincraftedBootstrapBundle::_stylesheets.html.twig' %}
 	{% block page_stylesheets %}{% endblock %}
 {% endblock %}
