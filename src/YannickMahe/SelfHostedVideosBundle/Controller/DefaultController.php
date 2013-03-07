@@ -22,7 +22,7 @@ class DefaultController extends Controller
         ->add('file')
         ->getForm();
 
-        return $this->render('YannickMaheSelfHostedVideosBundle:Default:index.html.twig', array('form' => $form->createView()));
+        return $this->render('YannickMaheSelfHostedVideosBundle:Default:upload.html.twig', array('form' => $form->createView()));
     }
 
     public function uploadAction(){

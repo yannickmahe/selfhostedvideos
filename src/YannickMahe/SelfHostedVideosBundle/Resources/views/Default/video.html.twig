@@ -10,11 +10,11 @@
 
 {% block content %}
 <div class="page-header">
-<h1>{{ video.name|truncate(20,true,'...') }}</h1>
+<h1>{{ video.name|truncate(35,true,'...') }}</h1>
 </div>
 
 <div style="text-align:center;">
-	<div class="flowplayer" style="width: {{ video.width }}px; height: {{ video.height }}px">
+	<div class="flowplayer">
 	   <video>
 	      <source type="video/mp4" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}"/>
 	   </video>
@@ -27,5 +27,11 @@
 {% endblock %}
 
 {% block page_javascripts %}
+	<script>
+		$(document).ready(function(){
+			var vidWidth = $('#main-container').width();
+			$('.flowplayer').css('width',Math.min(vidWidth,{{ video.width }}))
+		})
+	</script>
 	<script src="http://releases.flowplayer.org/5.3.2/flowplayer.min.js"></script>
 {% endblock %}

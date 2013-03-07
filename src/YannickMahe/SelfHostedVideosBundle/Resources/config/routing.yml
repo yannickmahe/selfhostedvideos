@@ -1,11 +1,11 @@
-yannick_mahe_self_hosted_videos_homepage:
-    pattern:  /
+yannick_mahe_self_hosted_videos_upload_page:
+    pattern:  /upload
     defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:index }
     requirements:
         _method:  GET
 
 yannick_mahe_self_hosted_videos_list:
-    pattern:  /list
+    pattern:  /
     defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:list }
     requirements:
         _method:  GET
