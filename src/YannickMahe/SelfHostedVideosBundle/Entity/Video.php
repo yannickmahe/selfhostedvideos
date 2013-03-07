@@ -217,11 +217,17 @@ class Video
     }
 
     public function getThumbnailAbsolutePath(){
-        return $this->getAbsolutePath().'.jpg';
+        $res =  str_replace('.mp4', '.jpg', $this->getAbsolutePath());
+        $res =  str_replace('.avi', '.jpg', $res);
+        $res =  str_replace('.mov', '.jpg', $res);
+        return $res;
     }
 
     public function getThumbnailWebPath(){
-        return $this->getWebPath().'.jpg';
+        $res =  str_replace('.mp4', '.jpg', $this->getWebPath());
+        $res =  str_replace('.avi', '.jpg', $res);
+        $res =  str_replace('.mov', '.jpg', $res);
+        return $res;
     }
 
     public function generateThumbnail($ffmpeg, $maxWidth, $maxHeight){
