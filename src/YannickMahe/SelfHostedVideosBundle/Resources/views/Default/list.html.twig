@@ -8,4 +8,12 @@
 
 {% block content %}
 <h1>List {{terms}}</h1>
+
+{% if videos|length > 0 %}
+	<ul>
+		{% for video in videos %}
+			<li>{% include "YannickMaheSelfHostedVideosBundle:Default:thumbnail.html.twig" with {'video': video} %}</li>
+		{% endfor %}
+	</ul>
+{% endif %}
 {% endblock %}

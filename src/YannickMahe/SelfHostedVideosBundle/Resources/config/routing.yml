@@ -11,7 +11,7 @@ yannick_mahe_self_hosted_videos_list:
         _method:  GET
 
 yannick_mahe_self_hosted_videos_video:
-    pattern:  /list/{video_id}
+    pattern:  /video/{video_id}
     defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:video }
     requirements:
         _method:  GET

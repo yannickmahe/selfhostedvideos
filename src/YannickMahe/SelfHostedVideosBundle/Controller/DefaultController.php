@@ -44,7 +44,7 @@ class DefaultController extends Controller
                 $data = array('valid' => false);
             }
         }
-        
+
         return new Response(json_encode($data));
     }
 
@@ -52,12 +52,37 @@ class DefaultController extends Controller
     public function listAction(Request $request)
     {
         $terms = $request->query->get('q');
-    	return $this->render('YannickMaheSelfHostedVideosBundle:Default:list.html.twig', array('terms' => $terms));
+        $em = $this->getDoctrineManager();
+        if(trim($terms) != ''){
+            $search_terms = str_replace(' ', '%', $terms);
+            $dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v WHERE v.name LIKE :terms";
+            $query = $em->createQuery($dql);
+            $query->setParameter('terms',"%$search_terms%");
+        } else {
+            $dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v";
+            $query = $em->createQuery($dql);
+        }
+        
+        
+
+        $videos = $query->getResult();
+
+    	return $this->render('YannickMaheSelfHostedVideosBundle:Default:list.html.twig', 
+                             array(
+                                'terms' => $terms,
+                                'videos' => $videos,
+                                ));
     }
 
     //Video page
-    public function videoAction($videoId)
+    public function videoAction($video_id)
     {
-    	return $this->render('YannickMaheSelfHostedVideosBundle:Default:video.html.twig');
+        $em = $this->getDoctrineManager();
+        $video = $em->getRepository('YannickMaheSelfHostedVideosBundle:Video')->find($video_id);
+    	return $this->render('YannickMaheSelfHostedVideosBundle:Default:video.html.twig',array('video' => $video));
+    }
+
+    private function getDoctrineManager(){
+        return $this->getDoctrine()->getManager();
     }
 }

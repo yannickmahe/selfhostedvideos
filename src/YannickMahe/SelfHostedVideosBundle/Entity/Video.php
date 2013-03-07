@@ -102,14 +102,14 @@ class Video
     {
         return null === $this->path
             ? null
-            : $this->getUploadRootDir().DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$this->path;
+            : $this->getUploadRootDir().DIRECTORY_SEPARATOR.$this->path;
     }
 
     public function getWebPath()
     {
         return null === $this->path
             ? null
-            : $this->getUploadDir().DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$this->path;
+            : $this->getUploadDir().DIRECTORY_SEPARATOR.$this->path;
     }
 
     protected function getUploadRootDir()
@@ -144,6 +144,9 @@ class Video
             $this->getUploadRootDir().DIRECTORY_SEPARATOR.date('Y-m-d').DIRECTORY_SEPARATOR.$this->id,
             $this->file->getClientOriginalName()
         );
+
+        //TODO: generate thumbnail
+        //TODO: get video framesize
 
         // set the path property to the filename where you've saved the file
         $this->path = date('Y-m-d').DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$this->file->getClientOriginalName();
