@@ -29,5 +29,7 @@
 			<li class="span4">{% include "YannickMaheSelfHostedVideosBundle:Default:thumbnail.html.twig" with {'video': video} %}</li>
 		{% endfor %}
 	</ul>
+{% else %}
+	<h2>No video has yet been uploaded! Go ahead and <a href="{{ path('yannick_mahe_self_hosted_videos_upload_page') }}">upload one</a>.</h2>
 {% endif %}
 {% endblock %}
