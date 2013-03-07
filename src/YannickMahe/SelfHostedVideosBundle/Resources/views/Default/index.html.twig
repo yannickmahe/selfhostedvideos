@@ -8,4 +8,12 @@
 
 {% block content %}
 <h1>Home</h1>
+
+<h2>Upload File</h2>
+
+<form action="{{ path('yannick_mahe_self_hosted_videos_upload') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    {{ form_rest(form) }}
+    <input type="submit" value="Upload video" />
+</form>
 {% endblock %}
