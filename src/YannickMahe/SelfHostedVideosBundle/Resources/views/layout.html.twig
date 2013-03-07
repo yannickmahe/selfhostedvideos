@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block head %}{% endblock %}
+{% block stylesheets %}{% include 'BraincraftedBootstrapBundle::_stylesheets.html.twig' %}{% endblock %}
 
 {% block title 'Self Hosted Videos' %}
 
@@ -12,3 +12,5 @@
 
     {% block content %}{% endblock %}
 {% endblock %}
+
+{% block javascripts %}{% include 'BraincraftedBootstrapBundle::_javascripts.html.twig' %}{% endblock %}

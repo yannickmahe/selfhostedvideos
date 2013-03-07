@@ -24,7 +24,8 @@
         "sensio/generator-bundle": "2.2.*",
         "jms/security-extra-bundle": "1.4.*",
         "jms/di-extra-bundle": "1.3.*",
-        "pulse00/ffmpeg-bundle": "dev-master"
+        "pulse00/ffmpeg-bundle": "dev-master",
+        "braincrafted/bootstrap-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

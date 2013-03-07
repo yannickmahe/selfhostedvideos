@@ -257,7 +257,6 @@ class Video
         imagecolortransparent($new_image, imagecolorallocate($new_image, 0, 0, 0));
         imagealphablending($new_image, false);
         imagesavealpha($new_image, true);
-        
         imagecopyresampled($new_image, imagecreatefromjpeg($this->getThumbnailAbsolutePath()), 
                             $marginLeft, $marginTop, 0, 0, $resizeWidth, $resizeHeight, $sourceWidth, $sourceHeight);
         
