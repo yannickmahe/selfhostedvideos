@@ -46,14 +46,14 @@ class Video
      *
      * @ORM\Column(name="width", type="integer")
      */
-    private $width;
+    private $width = 0;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="height", type="integer")
      */
-    private $height;
+    private $height = 0;
 
 
     /**
@@ -209,13 +209,55 @@ class Video
             $this->file->getClientOriginalName()
         );
 
-        //TODO: generate thumbnail
-        //TODO: get video framesize
-
         // set the path property to the filename where you've saved the file
         $this->path = date('Y-m-d').DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$this->file->getClientOriginalName();
 
         // clean up the file property as you won't need it anymore
         $this->file = null;
+    }
+
+    public function getThumbnailAbsolutePath(){
+        return $this->getAbsolutePath().'.jpg';
+    }
+
+    public function getThumbnailWebPath(){
+        return $this->getWebPath().'.jpg';
+    }
+
+    public function generateThumbnail($ffmpeg, $maxHeight, $maxHeight){
+        if(!is_file($this->getAbsolutePath())){
+            Throw new Exception("Video hasn't been uploaded");
+        }
+        //Extract thumbnail
+        $ffmpeg->open($this->getAbsolutePath())
+               ->extractImage(5,$this->getThumbnailAbsolutePath());
+
+        //Resize to required dimensions, keeping ratio
+        //TODO
+    }
+
+    public function setDimensions($ffprobe){
+        if(!is_file($this->getAbsolutePath())){
+            Throw new Exception("Video hasn't been uploaded");
+        }
+        $info =  @json_decode($ffprobe->probeStreams($this->getAbsolutePath()));//Warning silenced for dev env
+
+        $found = false;
+        foreach ($info as $infoSub) {
+            if(property_exists($infoSub, 'width')){
+                $sizeInfo = $infoSub;
+                $found = true;
+                break;
+            }
+        }
+        if(!$found){
+            Throw new Exception("Dimensions can't be determined");
+        }
+
+        $width = $sizeInfo->width;
+        $height = $sizeInfo->height;
+        
+        $this->setWidth($width);
+        $this->setHeight($height);
     }
 }

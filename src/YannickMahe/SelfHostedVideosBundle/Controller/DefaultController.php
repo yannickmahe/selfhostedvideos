@@ -5,6 +5,10 @@ namespace YannickMahe\SelfHostedVideosBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Monolog\Logger;
+use Monolog\Handler\NullHandler;
+use FFMpeg\FFMpeg;
+use FFMpeg\FFProbe;
 
 use YannickMahe\SelfHostedVideosBundle\Entity\Video;
 
@@ -36,6 +40,16 @@ class DefaultController extends Controller
                 $em->persist($video);
                 $em->flush();
                 $video->upload();
+
+                $logger = new Logger('MyLogger');
+                $logger->pushHandler(new NullHandler());
+
+                $ffmpeg = FFMpeg::load($logger);
+                $video->generateThumbnail($ffmpeg, 200, 300);//TODO: put thumbnail size in conf
+
+                $ffprobe = FFProbe::load($logger);
+                $video->setDimensions($ffprobe);
+
                 $em->persist($video);
                 $em->flush();
 

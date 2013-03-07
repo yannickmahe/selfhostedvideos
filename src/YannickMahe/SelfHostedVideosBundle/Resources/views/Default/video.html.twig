@@ -1,6 +1,6 @@
 {% extends "YannickMaheSelfHostedVideosBundle::layout.html.twig" %}
 
-{% block title 'Video' %}
+{% block title %}{{ video.name }}{% endblock %}
 
 {% block menu %}
    {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': '', 'q': ''} %}
