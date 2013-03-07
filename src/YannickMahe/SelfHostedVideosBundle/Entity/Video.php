@@ -39,7 +39,21 @@ class Video
     /**
      * @Assert\File(maxSize="5000000000")
      */
-    public $file;
+    public $file;    
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="width", type="integer")
+     */
+    private $width;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="height", type="integer")
+     */
+    private $height;
 
 
     /**
@@ -73,6 +87,52 @@ class Video
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Video
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Video
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getHeight()
+    {
+        return $this->height;
     }
 
     /**
@@ -126,6 +186,10 @@ class Video
         return 'uploads/videos';
     }
 
+    private function getTargetUploadRootDir(){
+        return $this->getUploadRootDir().DIRECTORY_SEPARATOR.date('Y-m-d').DIRECTORY_SEPARATOR.$this->id;
+    }
+
 
     public function upload()
     {
@@ -134,14 +198,14 @@ class Video
             return;
         }
 
-        if(!is_dir($this->getUploadRootDir().DIRECTORY_SEPARATOR.date('Y-m-d').DIRECTORY_SEPARATOR.$this->id)){
-            mkdir($this->getUploadRootDir().DIRECTORY_SEPARATOR.date('Y-m-d').DIRECTORY_SEPARATOR.$this->id, 0777, true);
+        if(!is_dir($this->getTargetUploadRootDir())){
+            mkdir($this->getTargetUploadRootDir(), 0777, true);
         }
 
         // move takes the target directory and then the
         // target filename to move to
         $this->file->move(
-            $this->getUploadRootDir().DIRECTORY_SEPARATOR.date('Y-m-d').DIRECTORY_SEPARATOR.$this->id,
+            $this->getTargetUploadRootDir(),
             $this->file->getClientOriginalName()
         );
 

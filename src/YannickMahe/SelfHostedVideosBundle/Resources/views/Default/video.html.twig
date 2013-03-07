@@ -8,18 +8,12 @@
 
 {% block content %}
 <h1>{{ video.name }}</h1>
-<!-- 1. jquery library -->
-<script
-  src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js">
-</script>
- 
-<!-- 2. flowplayer -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <script src="http://releases.flowplayer.org/5.3.2/flowplayer.min.js"></script>
- 
-<!-- 3. skin -->
-<link rel="stylesheet" type="text/css"
-   href="http://releases.flowplayer.org/5.3.2/skin/minimalist.css" />
-<div class="flowplayer" style="width: 300px;">
+<link rel="stylesheet" type="text/css" href="http://releases.flowplayer.org/5.3.2/skin/minimalist.css" />
+
+<div class="flowplayer" style="width: {{ video.width }}px; height: {{ video.height }}px">
    <video>
       <source type="video/mp4" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}"/>
    </video>
