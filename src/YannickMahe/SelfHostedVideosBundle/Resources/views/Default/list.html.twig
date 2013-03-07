@@ -1,13 +1,25 @@
 {% extends "YannickMaheSelfHostedVideosBundle::layout.html.twig" %}
 
-{% block title %}List {{terms}}{% endblock %}
+{% block title %}
+	{% if terms != '' %}
+		Search for "{{ terms }}"
+	{% else %}
+		All videos
+	{% endif %}
+{% endblock %}
 
 {% block menu %}
    {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': 'list', 'q': terms} %}
 {% endblock %}
 
 {% block content %}
-<h1>List {{terms}}</h1>
+<h1>
+	{% if terms != '' %}
+		Search for "{{ terms }}"
+	{% else %}
+		All videos
+	{% endif %}
+</h1>
 
 {% if videos|length > 0 %}
 	<ul>

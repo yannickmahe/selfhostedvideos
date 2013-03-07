@@ -6,14 +6,54 @@
    {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': 'home', 'q': ''} %}
 {% endblock %}
 
+{% block page_stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/yannickmaheselfhostedvideos/css/fineuploader-3.3.0.css') }}" />
+{% endblock %}
+
 {% block content %}
 <h1>Home</h1>
 
 <h2>Upload File</h2>
 
-<form action="{{ path('yannick_mahe_self_hosted_videos_upload') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    {{ form_rest(form) }}
-    <input type="submit" value="Upload video" />
-</form>
+<div id="jquery-wrapped-fine-uploader">
+        	
+</div>
+
+{% endblock %}
+
+{% block page_javascripts %}
+	<script src="{{ asset('bundles/yannickmaheselfhostedvideos/js/jquery.fineuploader-3.3.0.min.js') }}"></script>
+	<script>
+      $(document).ready(function () {
+        $('#jquery-wrapped-fine-uploader').fineUploader({
+          request: {
+            endpoint: '{{ path('yannick_mahe_self_hosted_videos_upload') }}',
+            inputName: '{{ form.name }}[{{ form.file.vars.name }}]',
+            params: {
+            	'{{ form.name }}[{{ form._token.vars.name }}]': '{{ form._token.vars.value }}'
+            }
+          },
+	      failedUploadTextDisplay: {
+	        mode: 'custom',
+	        maxChars: 40,
+	        responseProperty: 'error',
+	        enableTooltip: true
+	      },
+	      multiple: true,
+	      validation: {
+	        allowedExtensions: ['avi', 'mp4', 'mpeg', 'mpg', 'mov']
+	      },
+          classes: {
+            success: 'alert alert-success',
+            fail: 'alert alert-error'
+          },
+          template: '<div class="qq-uploader span8">' +
+                      '<pre class="qq-upload-drop-area span8"><span>{dragZoneText}</span></pre>' +
+                      '<div class="qq-upload-button btn btn-success btn-large" style="width: auto;">Upload new videos</div>' +
+                      '<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+                      '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul>' +
+                    '</div>'
+        });
+      });
+    </script>
 {% endblock %}

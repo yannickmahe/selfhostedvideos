@@ -2,6 +2,8 @@
 
 {% block title %}{{ video.name }}{% endblock %}
 
+{% block page_stylesheets %}<link rel="stylesheet" type="text/css" href="http://releases.flowplayer.org/5.3.2/skin/minimalist.css" />{% endblock %}
+
 {% block menu %}
    {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': '', 'q': ''} %}
 {% endblock %}
@@ -9,13 +11,13 @@
 {% block content %}
 <h1>{{ video.name }}</h1>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-<script src="http://releases.flowplayer.org/5.3.2/flowplayer.min.js"></script>
-<link rel="stylesheet" type="text/css" href="http://releases.flowplayer.org/5.3.2/skin/minimalist.css" />
-
 <div class="flowplayer" style="width: {{ video.width }}px; height: {{ video.height }}px">
    <video>
       <source type="video/mp4" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}"/>
    </video>
 </div>
+{% endblock %}
+
+{% block page_javascripts %}
+	<script src="http://releases.flowplayer.org/5.3.2/flowplayer.min.js"></script>
 {% endblock %}

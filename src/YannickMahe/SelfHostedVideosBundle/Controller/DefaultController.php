@@ -53,9 +53,14 @@ class DefaultController extends Controller
                 $em->persist($video);
                 $em->flush();
 
-                $data = array('valid' => true);
+                $data = array('success' => true);
             } else {
-                $data = array('valid' => false);
+                $errors = $form->getErrors();
+                $errorMessage = '';
+                foreach($errors as $error){
+                    $errorMessage .= $error->getMessage().' ';
+                }
+                $data = array('error' => $errorMessage);
             }
         }
 

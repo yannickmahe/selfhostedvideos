@@ -1,16 +1,23 @@
 {% extends "::base.html.twig" %}
 
-{% block stylesheets %}{% include 'BraincraftedBootstrapBundle::_stylesheets.html.twig' %}{% endblock %}
+{% block stylesheets %}
+	{% include 'BraincraftedBootstrapBundle::_stylesheets.html.twig' %}
+	{% block page_stylesheets %}{% endblock %}
+{% endblock %}
 
 {% block title 'Self Hosted Videos' %}
 
 {% block body %}
-
+	<div class="container">
     {% block menu %}
        {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': ''} %}
     {% endblock %}
-
     {% block content %}{% endblock %}
+	</div>
 {% endblock %}
 
-{% block javascripts %}{% include 'BraincraftedBootstrapBundle::_javascripts.html.twig' %}{% endblock %}
+{% block javascripts %}
+	{% include 'BraincraftedBootstrapBundle::_html5shiv.html.twig' %}
+	{% include 'BraincraftedBootstrapBundle::_javascripts.html.twig' %}
+	{% block page_javascripts %}{% endblock %}
+{% endblock %}
