@@ -126,6 +126,7 @@ class Video
         return 'uploads/videos';
     }
 
+
     public function upload()
     {
         // the file property can be empty if the field is not required
@@ -133,23 +134,19 @@ class Video
             return;
         }
 
-        if(!is_dir($this->getUploadRootDir())){
-            mkdir($this->getUploadRootDir());
-        }
-
-        if(!is_dir($this->getUploadRootDir().DIRECTORY_SEPARATOR.$this->id)){
-            mkdir($this->getUploadRootDir().DIRECTORY_SEPARATOR.$this->id);
+        if(!is_dir($this->getUploadRootDir().DIRECTORY_SEPARATOR.date('Y-m-d').DIRECTORY_SEPARATOR.$this->id)){
+            mkdir($this->getUploadRootDir().DIRECTORY_SEPARATOR.date('Y-m-d').DIRECTORY_SEPARATOR.$this->id, 0777, true);
         }
 
         // move takes the target directory and then the
         // target filename to move to
         $this->file->move(
-            $this->getUploadRootDir().DIRECTORY_SEPARATOR.$this->id,
+            $this->getUploadRootDir().DIRECTORY_SEPARATOR.date('Y-m-d').DIRECTORY_SEPARATOR.$this->id,
             $this->file->getClientOriginalName()
         );
 
         // set the path property to the filename where you've saved the file
-        $this->path = $this->file->getClientOriginalName();
+        $this->path = date('Y-m-d').DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.$this->file->getClientOriginalName();
 
         // clean up the file property as you won't need it anymore
         $this->file = null;

@@ -44,6 +44,7 @@ class DefaultController extends Controller
                 $data = array('valid' => false);
             }
         }
+        
         return new Response(json_encode($data));
     }
 
