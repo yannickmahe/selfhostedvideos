@@ -1,5 +1,5 @@
 {
-    "hash": "68b01048805fca5c68d0c6090b64b930",
+    "hash": "91d05edc372bd00f3a61735cd19e535b",
     "packages": [
         {
             "name": "doctrine/common",
@@ -764,6 +764,74 @@
             "time": "2013-02-13 18:06:51"
         },
         {
+            "name": "php-ffmpeg/php-ffmpeg",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alchemy-fr/PHP-FFmpeg",
+                "reference": "0.2.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alchemy-fr/PHP-FFmpeg/zipball/0.2.1",
+                "reference": "0.2.1",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": "1.*",
+                "php": ">=5.3.3",
+                "symfony/process": ">=2.0,<=2.2"
+            },
+            "require-dev": {
+                "fabpot/php-cs-fixer": "master",
+                "phpunit/phpunit": "3.7.*",
+                "sami/sami": "dev-master",
+                "silex/silex": "dev-master"
+            },
+            "suggest": {
+                "php-ffmpeg/extras": "A compilation of common audio & video drivers for PHP-FFMpeg"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "FFMpeg": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Romain Neutron",
+                    "email": "imprec@gmail.com",
+                    "homepage": "http://www.lickmychip.com/"
+                },
+                {
+                    "name": "Phraseanet Team",
+                    "email": "info@alchemy.fr",
+                    "homepage": "http://www.phraseanet.com/"
+                }
+            ],
+            "description": "FFMpeg PHP, an Object Oriented library to communicate with AVconv / ffmpeg",
+            "keywords": [
+                "audio",
+                "audio processing",
+                "avconv",
+                "avprobe",
+                "ffmpeg",
+                "ffprobe",
+                "video",
+                "video processing"
+            ],
+            "time": "2013-02-04 11:49:20"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.1.0",
             "source": {
@@ -849,6 +917,50 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "pulse00/ffmpeg-bundle",
+            "version": "dev-master",
+            "target-dir": "Dubture/FFmpegBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pulse00/ffmpeg-bundle.git",
+                "reference": "d1eababf85b5d97c7f5322c79d19bffa77b908bc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pulse00/ffmpeg-bundle/zipball/d1eababf85b5d97c7f5322c79d19bffa77b908bc",
+                "reference": "d1eababf85b5d97c7f5322c79d19bffa77b908bc",
+                "shasum": ""
+            },
+            "require": {
+                "php-ffmpeg/php-ffmpeg": "0.2.1"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Dubture\\FFmpegBundle": ""
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Gruendler",
+                    "email": "r.gruendler@gmail.com"
+                }
+            ],
+            "description": "Symfony bundle to provide PHP-FFmpeg as a Symfony service (https://github.com/alchemy-fr/PHP-FFmpeg)",
+            "keywords": [
+                "ffmpeg",
+                "multimedia"
+            ],
+            "support": {
+                "source": "https://github.com/pulse00/ffmpeg-bundle/tree/master",
+                "issues": "https://github.com/pulse00/ffmpeg-bundle/issues"
+            },
+            "time": "2013-02-14 11:06:23"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -1317,16 +1429,16 @@
         },
         {
             "name": "twig/extensions",
-            "version": "v1.0.0-alpha",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig-extensions",
-                "reference": "v1.0.0-alpha"
+                "url": "https://github.com/fabpot/Twig-extensions.git",
+                "reference": "921799aaf05f88af749d72912d6b154dfeb9a03e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig-extensions/zipball/v1.0.0-alpha",
-                "reference": "v1.0.0-alpha",
+                "url": "https://api.github.com/repos/fabpot/Twig-extensions/zipball/921799aaf05f88af749d72912d6b154dfeb9a03e",
+                "reference": "921799aaf05f88af749d72912d6b154dfeb9a03e",
                 "shasum": ""
             },
             "require": {
@@ -1360,7 +1472,7 @@
                 "i18n",
                 "text"
             ],
-            "time": "2012-08-28 08:04:23"
+            "time": "2013-02-28 14:21:30"
         },
         {
             "name": "twig/twig",
@@ -1419,9 +1531,10 @@
 
     ],
     "minimum-stability": "alpha",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "twig/extensions": 20,
+        "pulse00/ffmpeg-bundle": 20
+    },
     "platform": {
         "php": ">=5.3.3"
     },
