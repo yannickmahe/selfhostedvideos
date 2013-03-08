@@ -9,7 +9,7 @@ Install steps:
 --------------
 - sudo apt-get install ffmpeg
 - git clone git@github.com:yannickmahe/selfhostedvideos.git
-- setup server vhost
+- cd selfhostedvideos
 - curl -sS https://getcomposer.org/installer | php
 - php composer.phar update
 - edit app/config/parameters.yml
@@ -18,6 +18,7 @@ Install steps:
 - php app/console fos:user:create --super-admin admin admin@example.com 123456
 - mkdir web/uploads
 - chmod -R 777 web/uploads
+- setup server vhost
 
 TODO list:
 ----------
