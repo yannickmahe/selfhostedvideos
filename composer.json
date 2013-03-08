@@ -26,7 +26,8 @@
         "jms/di-extra-bundle": "1.3.*",
         "pulse00/ffmpeg-bundle": "dev-master",
         "braincrafted/bootstrap-bundle": "dev-master",
-        "friendsofsymfony/user-bundle": "*"
+        "friendsofsymfony/user-bundle": "*",
+        "symfony/console": "2.2.*@dev"
     },
     "scripts": {
         "post-install-cmd": [
