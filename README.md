@@ -20,6 +20,11 @@ Install steps:
 - chmod -R 777 web/uploads
 - setup server vhost
 
+How to manually add files
+-------------------------
+
+php app/console shv:video:add [--remove] filepath
+
 TODO list:
 ----------
 - simpler install process

@@ -216,6 +216,21 @@ class Video
         $this->file = null;
     }
 
+    public function moveFromDisc($filepath){
+
+        if(!is_file($filepath)){
+            Throw new \Exception("No file at ".$filepath);//Todo: check if actually a video file
+        }
+
+        if(!is_dir($this->getTargetUploadRootDir())){
+            mkdir($this->getTargetUploadRootDir(), 0777, true);
+        }
+
+        copy($filepath,$this->getTargetUploadRootDir().DIRECTORY_SEPARATOR.basename($filepath));
+    
+        $this->path = date('Y-m-d').DIRECTORY_SEPARATOR.$this->id.DIRECTORY_SEPARATOR.basename($filepath);
+    }
+
     public function getThumbnailAbsolutePath(){
         $res =  str_replace('.mp4', '.jpg', $this->getAbsolutePath());
         $res =  str_replace('.avi', '.jpg', $res);
@@ -232,7 +247,7 @@ class Video
 
     public function generateThumbnail($ffmpeg, $maxWidth, $maxHeight){
         if(!is_file($this->getAbsolutePath())){
-            Throw new Exception("Video hasn't been uploaded");
+            Throw new \Exception("Video hasn't been uploaded");
         }
         //Extract thumbnail
         $ffmpeg->open($this->getAbsolutePath())
@@ -271,7 +286,7 @@ class Video
 
     public function setDimensions($ffprobe){
         if(!is_file($this->getAbsolutePath())){
-            Throw new Exception("Video hasn't been uploaded");
+            Throw new \Exception("Video hasn't been uploaded");
         }
         $info =  @json_decode($ffprobe->probeStreams($this->getAbsolutePath()));//Warning silenced for dev env
 
@@ -284,7 +299,7 @@ class Video
             }
         }
         if(!$found){
-            Throw new Exception("Dimensions can't be determined");
+            Throw new \Exception("Dimensions can't be determined");
         }
 
         $width = $sizeInfo->width;
