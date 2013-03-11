@@ -16,6 +16,12 @@ yannick_mahe_self_hosted_videos_video:
     requirements:
         _method:  GET
 
+yannick_mahe_self_hosted_videos_delete:
+    pattern:  /video/delete/{video_id}
+    defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:delete }
+    requirements:
+        _method:  DELETE
+
 yannick_mahe_self_hosted_videos_upload:
     pattern:  /upload
     defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:upload }

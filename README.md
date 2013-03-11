@@ -30,7 +30,8 @@ TODO list:
 - simpler install process
 - user management interface
 - edit rights for admin
-- convert non mp4 to mp4
+- convert non mp4 video stream to mp4
+- convert non aac audio stream to aac
 - optimize videos for mobile
 - make it possible to prevent embedding
 - ajax load for video list, instead of loading all videos
