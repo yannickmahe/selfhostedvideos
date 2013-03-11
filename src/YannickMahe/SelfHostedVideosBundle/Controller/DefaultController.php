@@ -101,6 +101,21 @@ class DefaultController extends Controller
     	return $this->render('YannickMaheSelfHostedVideosBundle:Default:video.html.twig',array('video' => $video));
     }
 
+    public function deleteAction($video_id)
+    {
+
+        $em = $this->getDoctrineManager();
+        $video = $em->getRepository('YannickMaheSelfHostedVideosBundle:Video')->find($video_id);
+
+        if(!$video){
+            throw $this->createNotFoundException('No video found');
+        }
+        $em->remove($video);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('yannick_mahe_self_hosted_videos_list'));
+    }
+
     private function getDoctrineManager(){
         return $this->getDoctrine()->getManager();
     }

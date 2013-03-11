@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Video
  *
  * @ORM\Table()
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Entity(repositoryClass="YannickMahe\SelfHostedVideosBundle\Entity\VideoRepository")
  */
 class Video
@@ -307,5 +308,26 @@ class Video
         
         $this->setWidth($width);
         $this->setHeight($height);
+    }
+
+    /**
+     * @ORM\PreRemove()
+     */
+    public function storeFilenameForRemove()
+    {
+        $this->toRemove = array();
+        $this->toRemove[] = $this->getAbsolutePath();
+        $this->toRemove[] = $this->getThumbnailAbsolutePath();
+
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeUpload()
+    {
+        foreach($this->toRemove as $toRemoveFile){
+            unlink($toRemoveFile);
+        }
     }
 }

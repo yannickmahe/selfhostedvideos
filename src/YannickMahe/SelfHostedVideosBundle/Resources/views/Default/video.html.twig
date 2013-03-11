@@ -44,10 +44,13 @@
   </div>
   <div class="modal-body" style="text-align: center;">
     <img style="margin-left: auto; margin-right: auto;" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.thumbnailWebPath }}" alt={{ video.name }}/>
+    <form method="POST" action="{{ path('yannick_mahe_self_hosted_videos_delete', {'video_id': video.id}) }}">
+    	<input type="hidden" name="_method" value="DELETE" />
+    </form> 
   </div>
   <div class="modal-footer">
     <a href="#" class="btn">Cancel</a>
-    <a href="#" class="btn btn-danger"><i class="icon-remove-sign icon-white"></i> Yes, delete this video</a>
+    <a href="#" onclick="$('#modal-delete form').submit();" class="btn btn-danger"><i class="icon-remove-sign icon-white"></i> Yes, delete this video</a>
   </div>
 </div>
 
