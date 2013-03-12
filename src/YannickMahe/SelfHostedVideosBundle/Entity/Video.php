@@ -364,10 +364,10 @@ class Video
 
             unlink($this->getAbsolutePath());
 
-            $this->path = str_replace('.avi', '.mp4', $this->getPath());
-            $this->path =  str_replace('.mov', '.mp4', $this->path);
-            $this->path =  str_replace('.mpg', '.mp4', $this->path);
-            $this->path =  str_replace('.mpeg', '.mp4', $this->path);
+            $this->path =  str_replace('.avi', '.mp4', $this->getPath());
+            $this->path =  str_replace('.mov', '.mp4', $this->getPath());
+            $this->path =  str_replace('.mpg', '.mp4', $this->getPath());
+            $this->path =  str_replace('.mpeg', '.mp4', $this->getPath());
         }
 
         
