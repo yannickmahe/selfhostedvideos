@@ -34,7 +34,7 @@ class AddFolderCommand extends ContainerAwareCommand
                'remove',
                null,
                InputOption::VALUE_NONE,
-               'If set, the task will remove the original files and the containing folder'
+               'If set, the task will remove the original files and the containing folder if it is empty'
             )
         ;
     }
@@ -48,13 +48,13 @@ class AddFolderCommand extends ContainerAwareCommand
             Throw new \Exception("No folder at at ".$path);
         }
         
-        $output->writeln("Adding videos at ".$path); //Todo: check if actually a video file
+        $output->writeln("Adding videos at ".$path); 
 
         $dir = opendir($path);
         while($file = readdir($dir)){
             $filepath = $path.$file;
             $ext = pathinfo($filepath, PATHINFO_EXTENSION);
-            if(in_array($ext, array('mov','mpeg','avi','mkv','mp4'))){  
+            if(in_array($ext, array('mov','mpeg','avi','mkv','mp4','mpg'))){  //Todo: check if actually a video file
                 $output->writeln("Adding video at ".$filepath);        
                 try{
                     $video = new Video();
@@ -81,8 +81,15 @@ class AddFolderCommand extends ContainerAwareCommand
                 } catch (\Exception $e){
                     Throw $e;
                 }
-            
-            $output->writeln("Video n° ".$video->getId()." has been added"); 
+                
+                $output->writeln("Video n° ".$video->getId()." has been added"); 
+
+                if ($input->getOption('remove')) {
+                    rmdir($path);
+                    $output->writeln("Deleted ".$path); 
+                }
+            } else {
+                $output->writeln($filepath." is not a video");
             }
         }
         /*
