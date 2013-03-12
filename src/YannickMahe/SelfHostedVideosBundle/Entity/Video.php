@@ -330,4 +330,10 @@ class Video
             unlink($toRemoveFile);
         }
     }
+
+    public function postProcess($ffmpeg, $ffprobe){
+        //TODO: convert to mp4 vcodec, mp3 acodec
+        $this->generateThumbnail($ffmpeg, 300, 200);//TODO: put thumbnail size in conf
+        $this->setDimensions($ffprobe);
+    }
 }
