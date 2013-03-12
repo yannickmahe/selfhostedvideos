@@ -52,7 +52,7 @@ class AddFolderCommand extends ContainerAwareCommand
 
         $dir = opendir($path);
         while($file = readdir($dir)){
-            $filepath = $path.$file;
+            $filepath = $path.DIRECTORY_SEPARATOR.$file;
             $ext = pathinfo($filepath, PATHINFO_EXTENSION);
             if(in_array($ext, array('mov','mpeg','avi','mkv','mp4','mpg'))){  //Todo: check if actually a video file
                 $output->writeln("Adding video at ".$filepath);        
