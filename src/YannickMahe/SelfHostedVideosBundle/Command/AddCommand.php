@@ -59,13 +59,11 @@ class AddCommand extends ContainerAwareCommand
 
             $logger = new Logger('MyLogger');
             $logger->pushHandler(new NullHandler());
-
             $ffmpeg = FFMpeg::load($logger);
-            $video->generateThumbnail($ffmpeg, 300, 200);//TODO: put thumbnail size in conf
-
             $ffprobe = FFProbe::load($logger);
-            $video->setDimensions($ffprobe);
-
+            
+            $video->postProcess($ffmpeg,$ffprobe);
+            
             $em->persist($video);
             $em->flush();
 

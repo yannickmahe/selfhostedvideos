@@ -330,4 +330,48 @@ class Video
             unlink($toRemoveFile);
         }
     }
+
+    public function postProcess($ffmpeg, $ffprobe, OutputInterface $output = null){
+        //Check format
+        $info = @json_decode($ffprobe->probeStreams($this->getAbsolutePath()));//Warning silenced for dev env
+        $found = false;
+        foreach ($info as $infoSub) {
+            if($infoSub->codec_type == 'video'){
+                $codec_name = $infoSub->codec_name;
+                $found = true;
+                break;
+            }
+        }
+        if(!$found){
+            Throw new \Exception("File is not a video file");
+        }
+
+        if($codec_name != 'h264'){
+            $x264Format = new \FFMpeg\Format\Video\X264();
+            $newPath =  str_replace('.avi', '.mp4', $this->getAbsolutePath());
+            $newPath =  str_replace('.mov', '.mp4', $newPath);
+            $newPath =  str_replace('.mpg', '.mp4', $newPath);
+            $newPath =  str_replace('.mpeg', '.mp4', $newPath);
+
+            $ffmpeg->setProber($ffprobe);
+            if($output){
+                $output->writeln("Converting ".$this->getAbsolutePath()." to ".$newPath);
+            }
+            $ffmpeg->open($this->getAbsolutePath())->encode($x264Format, $newPath)->close();  
+            if($output){
+                $output->writeln("Conversion done!");
+            }
+
+            unlink($this->getAbsolutePath());
+
+            $this->path =  str_replace('.avi', '.mp4', $this->getPath());
+            $this->path =  str_replace('.mov', '.mp4', $this->getPath());
+            $this->path =  str_replace('.mpg', '.mp4', $this->getPath());
+            $this->path =  str_replace('.mpeg', '.mp4', $this->getPath());
+        }
+
+        
+        $this->generateThumbnail($ffmpeg, 300, 200);//TODO: put thumbnail size in conf
+        $this->setDimensions($ffprobe);
+    }
 }
