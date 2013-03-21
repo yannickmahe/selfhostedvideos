@@ -83,14 +83,14 @@ class AddFolderCommand extends ContainerAwareCommand
                 }
                 
                 $output->writeln("Video n° ".$video->getId()." has been added"); 
-
-                if ($input->getOption('remove')) {
-                    rmdir($path);
-                    $output->writeln("Deleted ".$path); 
-                }
             } else {
                 $output->writeln($filepath." is not a video");
             }
+        }
+
+        if ($input->getOption('remove')) {
+            rmdir($path);
+            $output->writeln("Deleted ".$path); 
         }
         /*
 
