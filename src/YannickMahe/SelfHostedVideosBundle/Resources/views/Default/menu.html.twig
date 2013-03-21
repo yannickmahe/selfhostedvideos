@@ -6,10 +6,10 @@
 		<ul class="nav pull-right">
 		<li{% if current == 'list' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_list') }}"><span class="fui-video-24"></span> All videos</a></li>
 		<li{% if current == 'upload' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_upload_page') }}"><span class="fui-plus-24"></span> Upload</a></li>
-		<li><a href="{{ path('fos_user_security_logout') }}"><span class="fui-cross-24"></span> Logout</a></li>
+		<li><a href="{{ path('fos_user_security_logout') }}"><span class="fui-lock-24"></span> Logout</a></li>
 		<li>                
 		<li>
-               <form style="margin-left: 5px; margin-top: 2px;" method="GET" action="{{ path('yannick_mahe_self_hosted_videos_list') }}" class="form-search pull-right">
+               <form style="margin-left: 5px; margin-top: 2px; margin-bottom: 12px;" method="GET" action="{{ path('yannick_mahe_self_hosted_videos_list') }}" class="form-search pull-right">
                        <input style="padding: 4px 6px; margin-top: 5px;" type="text" class="" name="q" value="{{ q }}" placeholder="Search video..." />
                        <input type="submit" value="Go" class="btn btn-primary"/>
                </form>
