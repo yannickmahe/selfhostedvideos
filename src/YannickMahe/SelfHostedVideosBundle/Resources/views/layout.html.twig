@@ -29,7 +29,7 @@
 {% block body %}
 	<div class="container" id="main-container">
     {% block menu %}
-       {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': ''} %}
+       {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': '', 'q': ''} %}
     {% endblock %}
     {% block content %}{% endblock %}
 	</div>

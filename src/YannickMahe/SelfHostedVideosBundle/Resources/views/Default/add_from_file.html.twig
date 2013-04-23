@@ -1,0 +1,24 @@
+{% extends "YannickMaheSelfHostedVideosBundle::layout.html.twig" %}
+
+{% block title %}Add a video from the filesystem{% endblock %}
+
+{% block menu %}
+   {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': 'from_file', 'q': ''} %}
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+<h1>Add a video from the filesystem</h1>
+</div>
+
+{% if folders|length == 0 %}
+	<h2>No local folder to add the videos from has been defined yet. You can define it in your app/config/config.yml in parameters -> folders.</h2>
+{% else %}
+	{% for folder in folders %}
+		<ul>
+			{% render(controller("YannickMaheSelfHostedVideosBundle:Default:folder", {'folder': folder})) %}
+		</ul>
+	{% endfor %}
+{% endif %}
+
+{% endblock %}

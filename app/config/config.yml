@@ -101,3 +101,7 @@ fos_user:
     db_driver: orm 
     firewall_name: main
     user_class: YannickMahe\SelfHostedVideosBundle\Entity\User
+
+parameters:
+    folders:
+        - /home/yannick/Downloads/today

@@ -4,6 +4,12 @@ yannick_mahe_self_hosted_videos_upload_page:
     requirements:
         _method:  GET
 
+yannick_mahe_self_hosted_videos_add_from_file:
+    pattern:  /filesystem
+    defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:addFromFile }
+    requirements:
+        _method:  GET
+
 yannick_mahe_self_hosted_videos_list:
     pattern:  /
     defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:list }
