@@ -1,0 +1,67 @@
+{% extends "YannickMaheSelfHostedVideosBundle::layout.html.twig" %}
+
+{% block title %}Add a video from the filesystem{% endblock %}
+
+{% block menu %}
+   {% include "YannickMaheSelfHostedVideosBundle:Default:menu.html.twig" with {'current': 'from_file', 'q': ''} %}
+{% endblock %}
+
+{% block content %}
+<div class="page-header">
+<h1>Add a video from the filesystem</h1>
+</div>
+
+{% if folders|length == 0 %}
+	<h2>No local folder to add the videos from has been defined yet. You can define it in your app/config/config.yml in parameters -> folders.</h2>
+{% else %}
+	{% for folder in folders %}
+		<ul>
+			{% render(controller("YannickMaheSelfHostedVideosBundle:Default:folder", {'folder': folder})) %}
+		</ul>
+	{% endfor %}
+{% endif %}
+
+{% endblock %}
+
+{% block page_javascripts %}
+	<script type="text/javascript">
+	$(document).ready(function(){
+		remoteAdd = function(elementId, filepath, deleteFile){
+			$.ajax({
+				url: '{{ path('yannick_mahe_self_hosted_videos_add_video_from_file') }}',
+				data: 'delete='+deleteFile+'&filepath='+filepath,
+				method: 'POST',
+				success: function(data){
+					var objData = JSON.parse(data);
+					if(objData.success){
+						var videoId = objData.id;
+						var href = '/video/'+videoId;
+						$('#'+elementId+'-success').attr('href', href);
+						$('#'+elementId+'-success').html('Link to video');
+						if(deleteFile){
+							$('#'+elementId+'-move').remove();
+							$('#'+elementId+'-add').remove();
+						}
+					} else {
+						$('#'+elementId+'-error').html('The following error occured when adding the file: '+objData.errorMessage);
+					}
+				}
+			});
+		};
+
+		$('.move-to-site, .add-to-site').each(function(){
+			$(this).click(function(e){
+				var elementId = $(this).attr('elementId');
+				var filepath = $(this).attr('filepath');
+				var deleteFile = $(this).attr('delete');
+				$('#'+elementId+'-success').html('loading');
+				remoteAdd(elementId, filepath, deleteFile);
+				e.preventDefault();
+			});
+		})
+
+	});
+
+
+    </script>
+{% endblock %}

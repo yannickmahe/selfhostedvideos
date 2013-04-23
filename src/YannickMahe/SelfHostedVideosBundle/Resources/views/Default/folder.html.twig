@@ -1,0 +1,21 @@
+
+		<li>{{ folder }}
+			<ul>
+				{% for video in videos %}
+					<li><span class="fui-video-24"></span> {{ video }}
+						<span class="" id="{{ video|replace({'/': '', '\\': '', '.': ''}) }}-error" style="color: #C0392B; font-weight: bold;"></span>
+						<a href="#" id="{{ video|replace({'/': '', '\\': '', '.': ''}) }}-success" style="color: #1ABC9C; font-weight: bold;"></a>
+						<br /> 
+						<a href="#" id="{{ video|replace({'/': '', '\\': '', '.': ''}) }}-move" elementId="{{ video|replace({'/': '', '\\': '', '.': ''}) }}" class="btn btn-primary btn-mini move-to-site" filepath="{{ video }}" delete="true">Move to site</a> 
+						<a href="#" id="{{ video|replace({'/': '', '\\': '', '.': ''}) }}-add" elementId="{{ video|replace({'/': '', '\\': '', '.': ''}) }}" class="btn btn-mini add-to-site" filepath="{{ video }}" delete="false">Add to site</a> 
+						<br /><br />
+					</li>
+				{% endfor %}
+				{% for subfolder in subfolders %}
+					{% render(controller("YannickMaheSelfHostedVideosBundle:Default:folder", {'folder': subfolder})) %}
+				{% endfor %}
+				{% for file in files %}
+					<li><em>{{ file }}</em></li>
+				{% endfor %}
+			</ul>
+		</li>
