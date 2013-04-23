@@ -2,7 +2,7 @@
 		<li>{{ folder }}
 			<ul>
 				{% for video in videos %}
-					<li><span class="fui-video-24"></span> {{ video }}&nbsp;&nbsp;<a href="#" class="btn">Move to site</a> <a href="#" class="btn btn-primary">Add to site</a></li>
+					<li><span class="fui-video-24"></span> {{ video }}&nbsp;&nbsp;<a href="#" class="btn btn-primary">Move to site</a> <a href="#" class="btn">Add to site</a></li>
 				{% endfor %}
 				{% for subfolder in subfolders %}
 					{% render(controller("YannickMaheSelfHostedVideosBundle:Default:folder", {'folder': subfolder})) %}
