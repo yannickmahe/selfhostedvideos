@@ -103,5 +103,5 @@ fos_user:
     user_class: YannickMahe\SelfHostedVideosBundle\Entity\User
 
 parameters:
-    folders:
-        - /home/yannick/Downloads/today
+    folders: #Folders from which you want to add videos via the web interface. Be advised these folders are scanned recursively, so a folder with a lot of levels of subfolders may take up a lot of you server's resources
+        - /media/yannick/Data/Incoming

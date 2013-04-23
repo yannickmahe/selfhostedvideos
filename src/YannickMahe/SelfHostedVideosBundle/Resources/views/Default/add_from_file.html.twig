@@ -22,3 +22,46 @@
 {% endif %}
 
 {% endblock %}
+
+{% block page_javascripts %}
+	<script type="text/javascript">
+	$(document).ready(function(){
+		remoteAdd = function(elementId, filepath, deleteFile){
+			$.ajax({
+				url: '{{ path('yannick_mahe_self_hosted_videos_add_video_from_file') }}',
+				data: 'delete='+deleteFile+'&filepath='+filepath,
+				method: 'POST',
+				success: function(data){
+					var objData = JSON.parse(data);
+					if(objData.success){
+						var videoId = objData.id;
+						var href = '/video/'+videoId;
+						$('#'+elementId+'-success').attr('href', href);
+						$('#'+elementId+'-success').html('Link to video');
+						if(deleteFile){
+							$('#'+elementId+'-move').remove();
+							$('#'+elementId+'-add').remove();
+						}
+					} else {
+						$('#'+elementId+'-error').html('The following error occured when adding the file: '+objData.errorMessage);
+					}
+				}
+			});
+		};
+
+		$('.move-to-site, .add-to-site').each(function(){
+			$(this).click(function(e){
+				var elementId = $(this).attr('elementId');
+				var filepath = $(this).attr('filepath');
+				var deleteFile = $(this).attr('delete');
+				$('#'+elementId+'-success').html('loading');
+				remoteAdd(elementId, filepath, deleteFile);
+				e.preventDefault();
+			});
+		})
+
+	});
+
+
+    </script>
+{% endblock %}

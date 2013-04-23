@@ -113,8 +113,54 @@ class DefaultController extends Controller
         return $this->redirect($this->generateUrl('yannick_mahe_self_hosted_videos_list'));
     }
 
-    public function addVideofromFileAction(){
+    public function addVideoFromFileAction(Request $request){
+        $filepath = $request->request->get('filepath');
+        $delete = $request->request->get('delete');
+        $failed = false;
 
+        try{
+
+            if(!is_file($filepath)){
+                Throw new \Exception("No file at ".$filepath);
+            }
+        
+            $video = new Video();
+            $em = $this->getDoctrineManager();
+            $video->setName(basename($filepath));
+            $em->persist($video);
+            $em->flush();
+            $video->moveFromDisc($filepath);
+
+            $logger = new Logger('MyLogger');
+            $logger->pushHandler(new NullHandler());
+            $ffmpeg = FFMpeg::load($logger);
+            $ffprobe = FFProbe::load($logger);
+            
+            $video->postProcess($ffmpeg,$ffprobe);
+            
+            $em->persist($video);
+            $em->flush();
+
+            if ($delete) {
+                unlink($filepath);
+            }
+        } catch (\Exception $e){
+            $failed = true;
+            $error = $e->getMessage();
+        }
+        if($failed){
+            $data = array(
+                    'success' => false,
+                    'errorMessage' => $error,
+                );
+        } else {
+            $data = array(
+                    'success' => true,
+                    'id' => $video->getId(),
+                );
+        }
+
+        return new Response(json_encode($data));
     }
 
     public function folderAction($folder){
@@ -133,7 +179,7 @@ class DefaultController extends Controller
             }
             if(is_file($folder.DIRECTORY_SEPARATOR.$point)){
                 $ext = pathinfo($folder.DIRECTORY_SEPARATOR.$point, PATHINFO_EXTENSION);
-                if(in_array($ext, array('mov','mpeg','avi','mkv','mp4','mpg'))){  //Todo: check if actually a video file
+                if(in_array($ext, array('mp4'))){  //Todo: check if actually a video file
                     $videos[] = $folder.DIRECTORY_SEPARATOR.$point;
                 } else {
                     $files[] = $folder.DIRECTORY_SEPARATOR.$point;
