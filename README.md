@@ -27,22 +27,22 @@ How to manually add files
 
 TODO list
 ---------
-- [ ] allow to add from filesystem
-- [ ] simpler install process
-- [ ] user management interface
-- [ ] edit rights only for admin
-- [ ] optimize videos for mobile
-- [ ] make it possible to prevent embedding
-- [ ] ajax load for video list, instead of loading all videos
-- [ ] optimize layout for mobile & tablet (responsive)
-- [ ] show link to video page when upload finished
-- [ ] better looking uploads bar
-- [ ] autocomplete on search field
-- [ ] add licence.txt
-- [ ] customizable name
-- [ ] translate texts
-- [ ] store allowed formats in config
-- [ ] browser fullscreen for cinema mode
+- allow to add from filesystem
+- simpler install process
+- user management interface
+- edit rights only for admin
+- optimize videos for mobile
+- make it possible to prevent embedding
+- ajax load for video list, instead of loading all videos
+- optimize layout for mobile & tablet (responsive)
+- show link to video page when upload finished
+- better looking uploads bar
+- autocomplete on search field
+- add licence.txt
+- customizable name
+- translate texts
+- store allowed formats in config
+- browser fullscreen for cinema mode
 
 Known issues
 ------------
