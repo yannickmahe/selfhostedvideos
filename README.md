@@ -27,6 +27,7 @@ How to manually add files
 
 TODO list
 ---------
+- [ ] allow to add from filesystem
 - [ ] simpler install process
 - [ ] user management interface
 - [ ] edit rights only for admin
