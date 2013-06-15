@@ -94,8 +94,14 @@ class DefaultController extends Controller
     public function videoAction($video_id)
     {
         $em = $this->getDoctrineManager();
-        $video = $em->getRepository('YannickMaheSelfHostedVideosBundle:Video')->find($video_id);
-    	return $this->render('YannickMaheSelfHostedVideosBundle:Default:video.html.twig',array('video' => $video));
+        $repo = $em->getRepository('YannickMaheSelfHostedVideosBundle:Video');
+        $video = $repo->find($video_id);
+        $nextVideo = $repo->getNextInSeries($video);
+        $previousVideo = $repo->getPreviousInSeries($video);
+    	return $this->render('YannickMaheSelfHostedVideosBundle:Default:video.html.twig',array('video' => $video, 
+                                                                                               'next' => $nextVideo, 
+                                                                                               'previous' => $previousVideo,
+                                                                                               ));
     }
 
     public function deleteAction($video_id)

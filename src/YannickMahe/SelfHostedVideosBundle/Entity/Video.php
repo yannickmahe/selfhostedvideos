@@ -56,6 +56,8 @@ class Video
      */
     private $height = 0;
 
+    private $info;
+
 
     /**
      * Get id
@@ -328,6 +330,71 @@ class Video
     {
         foreach($this->toRemove as $toRemoveFile){
             unlink($toRemoveFile);
+        }
+    }
+
+    public function getInfo(){
+        if(!is_null($this->info)){
+            return $this->info;
+        } else {
+            $videoNameCorr = str_replace('x264', '', $this->name);
+            $videoNameCorr = str_replace('.mp4', '', $videoNameCorr);
+            $videoNameCorr = str_replace('h264', '', $videoNameCorr);
+
+            $matches = array();
+
+            //Season & episode
+            //Ordered so as to avoid false positives
+            if(preg_match('/S(\d{2})E(\d{2})E(\d{2})/', $videoNameCorr, $matches)){ //S08E11E12 double episode, season 8 ep 11 and 12
+                $delimiter = $matches[0];
+                $season = intval($matches[1]);
+                $episodes = array(intval($matches[2]),intval($matches[3]));
+            } elseif (preg_match('/S(\d{2})E(\d{2})/', $videoNameCorr, $matches)) { //S01E13
+                $delimiter = $matches[0];
+                $season = intval($matches[1]);
+                $episodes = array(intval($matches[2]));
+            } elseif (preg_match('/(\d)x(\d{2})/', $videoNameCorr, $matches)) { //3x05
+                $delimiter = $matches[0];
+                $season = intval($matches[1]);
+                $episodes = array(intval($matches[2]));
+            } elseif (preg_match('/(\d)(\d{2})/', $videoNameCorr, $matches)) { //819
+                $delimiter = $matches[0];
+                $season = intval($matches[1]);
+                $episodes = array(intval($matches[2]));
+            } else {
+                //Not found !
+            }
+
+            $nameRaw = substr($videoNameCorr, 0,strpos($videoNameCorr, $delimiter));
+
+            //Spliters : - _ . 
+            $nameRaw = str_replace('-', ' ', $nameRaw);
+            $nameRaw = str_replace('_', ' ', $nameRaw);
+            $nameRaw = str_replace('.', ' ', $nameRaw);
+
+            //CamelCase
+            $nameProcessed = $nameRaw[0];
+            for($i = 1; $i < strlen($nameRaw); $i++){
+                if(
+                        $nameRaw[$i-1] != ' '      //Previous is not a space
+                    &&  ctype_upper($nameRaw[$i])  //And next is upper case
+                ){
+                    //Then it is next word
+                    $nameProcessed[strlen($nameProcessed)] = ' ';
+                    $nameProcessed[strlen($nameProcessed)] = $nameRaw[$i];
+                } else {
+                    $nameProcessed[strlen($nameProcessed)] = $nameRaw[$i];
+                }
+            }
+
+            $nameProcessed = trim($nameProcessed);
+
+            $this->info = array(
+                    'series_name' => $nameProcessed,
+                    'season' => $season,
+                    'episodes' => $episodes,
+                );
+            return $this->info;
         }
     }
 

@@ -12,4 +12,113 @@ use Doctrine\ORM\EntityRepository;
  */
 class VideoRepository extends EntityRepository
 {
+	public function getPreviousInSeries($video){
+
+		$info = $video->getInfo();
+
+		$season 	= $info['season'];
+		$episode 	= min($info['episodes']);
+		$series 	= $info['series_name'];
+
+		$previous = null;
+
+		if($episode > 1){
+			$previous = $this->findVideoBySeriesSeasonAndEpisode($series,$season,$episode-1);
+		}
+
+		if($previous){
+			return $previous;
+		}
+
+		if($season > 1) {
+			$previous = $this->findVideoBySeriesSeasonAndEpisode($series,$season-1,'MAX');
+		}
+
+		if($previous){
+			return $previous;
+		}
+
+		return null;
+	}
+
+	public function getNextInSeries($video){
+		$info = $video->getInfo();
+
+		$season 	= $info['season'];
+		$episode 	= max($info['episodes']);
+		$series 	= $info['series_name'];
+
+		$next = null;
+
+		$next = $this->findVideoBySeriesSeasonAndEpisode($series,$season,$episode+1);
+
+		if($next){
+			return $next;
+		}
+
+		$next = $this->findVideoBySeriesSeasonAndEpisode($series,$season+1,1);
+
+		if($next){
+			return $next;
+		}
+
+		return null;
+	}
+
+	//Episode is "MAX" for latest episode in the season
+	public function findVideoBySeriesSeasonAndEpisode($series, $season, $episode){
+		$em = $this->getEntityManager();
+		if($episode == 'MAX'){
+			$search = '%'.str_replace(' ', '%', $series).'%'.$season.'%';
+			$dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v WHERE v.name LIKE :search ORDER BY v.id DESC";
+            $query = $em->createQuery($dql);
+            $query->setParameter('search',$search);
+
+            $videos = $query->getResult();
+
+            $return = null;
+            $max = 0;
+
+            foreach($videos as $video){
+            	$info = $video->getInfo();
+        		$vidSeason = $info['season'];
+        		$vidEpisode = max($info['episodes']);
+
+        		if($vidEpisode > $max){
+        			$max = $vidEpisode;
+        			$return = $video;
+        		}
+
+            }
+
+			return $return;
+		} else {
+			$search = '%'.str_replace(' ', '%', $series).'%'.$season.'%'.$episode.'%';
+			$dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v WHERE v.name LIKE :search ORDER BY v.id DESC";
+            $query = $em->createQuery($dql);
+            $query->setParameter('search',$search);
+
+            $videos = $query->getResult();
+
+            if(count($videos)  == 0){
+            	return null;
+            } elseif(count($videos) == 1){
+            	return $videos[0];
+            } else{
+            	foreach($videos as $video){
+            		$info = $video->getInfo();
+            		$vidSeason = $info['season'];
+            		$vidEpisodes = $info['episodes'];
+
+            		foreach($vidEpisodes as $vidEpisode){
+	            		if($vidEpisode == $episode && $vidSeason == $season){
+	            			return $video;
+	            		}
+            		}
+
+            	}
+            }
+		}
+		return null;
+	}
 }
