@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class VideoRepository extends EntityRepository
 {
-	public function getPreviousInSeries($video){
+	public function getPreviousInSeries(Video $video){
 
 		$info = $video->getInfo();
 
@@ -41,7 +41,7 @@ class VideoRepository extends EntityRepository
 		return null;
 	}
 
-	public function getNextInSeries($video){
+	public function getNextInSeries(Video $video){
 		$info = $video->getInfo();
 
 		$season 	= $info['season'];
@@ -70,7 +70,7 @@ class VideoRepository extends EntityRepository
 		$em = $this->getEntityManager();
 		if($episode == 'MAX'){
 			$search = '%'.str_replace(' ', '%', $series).'%'.$season.'%';
-			$dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v WHERE v.name LIKE :search ORDER BY v.id DESC";
+			$dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v WHERE v.name LIKE :search";
             $query = $em->createQuery($dql);
             $query->setParameter('search',$search);
 
@@ -94,7 +94,7 @@ class VideoRepository extends EntityRepository
 			return $return;
 		} else {
 			$search = '%'.str_replace(' ', '%', $series).'%'.$season.'%'.$episode.'%';
-			$dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v WHERE v.name LIKE :search ORDER BY v.id DESC";
+			$dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v WHERE v.name LIKE :search";
             $query = $em->createQuery($dql);
             $query->setParameter('search',$search);
 
