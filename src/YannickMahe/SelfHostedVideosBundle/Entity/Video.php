@@ -35,12 +35,12 @@ class Video
      *
      * @ORM\Column(type="string", length=511, nullable=true)
      */
-    public $path;    
+    private $path;    
 
     /**
      * @Assert\File(maxSize="5000000000")
      */
-    public $file;    
+    private $file;    
 
     /**
      * @var integer
