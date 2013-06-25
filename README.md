@@ -27,11 +27,10 @@ How to manually add files
 
 TODO list
 ---------
-- allow to add from filesystem
 - simpler install process
 - user management interface
 - edit rights only for admin
-- optimize videos for mobile
+- subtitles
 - make it possible to prevent embedding
 - ajax load for video list, instead of loading all videos
 - optimize layout for mobile & tablet (responsive)
