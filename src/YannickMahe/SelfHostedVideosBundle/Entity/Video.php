@@ -40,7 +40,7 @@ class Video
     /**
      * @Assert\File(maxSize="5000000000")
      */
-    private $file;    
+    public $file;    
 
     /**
      * @var integer
@@ -57,6 +57,12 @@ class Video
     private $height = 0;
 
     private $info;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Subtitle", mappedBy="video", cascade={"remove", "persist"})
+     */
+    protected $subtitles;
+
 
 
     /**
@@ -440,5 +446,45 @@ class Video
         
         $this->generateThumbnail($ffmpeg, 300, 200);//TODO: put thumbnail size in conf
         $this->setDimensions($ffprobe);
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->subtitles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add subtitles
+     *
+     * @param \YannickMahe\SelfHostedVideosBundle\Entity\Subtitle $subtitles
+     * @return Video
+     */
+    public function addSubtitle(\YannickMahe\SelfHostedVideosBundle\Entity\Subtitle $subtitles)
+    {
+        $this->subtitles[] = $subtitles;
+    
+        return $this;
+    }
+
+    /**
+     * Remove subtitles
+     *
+     * @param \YannickMahe\SelfHostedVideosBundle\Entity\Subtitle $subtitles
+     */
+    public function removeSubtitle(\YannickMahe\SelfHostedVideosBundle\Entity\Subtitle $subtitles)
+    {
+        $this->subtitles->removeElement($subtitles);
+    }
+
+    /**
+     * Get subtitles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSubtitles()
+    {
+        return $this->subtitles;
     }
 }

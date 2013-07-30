@@ -17,6 +17,9 @@
 	<div class="flowplayer">
 	   <video>
 	      <source type="video/mp4" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}"/>
+        {% if subtitle %}
+          <track src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ subtitle.webPath }}" default>
+        {% endif %}
 	   </video>
 	</div>
 </div>
@@ -38,8 +41,31 @@
 <a class="btn btn-primary" href="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}">
 	Direct link
 </a>
+
+
+<div class="btn-group select select-block">
+    <i class="dropdown-arrow dropdown-arrow-inverse"></i>
+    <button class="btn dropdown-toggle clearfix btn-primary" data-toggle="dropdown"><span class="filter-option">Subtitles</span>&nbsp;<span class="caret"></span></button>
+    <ul class="dropdown-menu dropdown-inverse" role="menu" style="overflow-y: auto;">
+        {% if subtitle %}
+          <li rel="0"><a href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': video.id}) }}" class="">No subtitles</a></li>
+        {% endif %}
+        {% for sub in video.subtitles %}
+          <li rel="0">
+            <a href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': video.id, 'subtitle_id': sub.id}) }}" class="">
+              {{ sub.name }}
+            </a>
+          </li>
+        {% endfor %}
+        {% if video.subtitles|length > 0 %}
+          <li>&nbsp;</li>
+        {% endif %}
+        <li rel="1"><a href="#" onclick="$('#modal-subtitle').modal('show');" class="">Add new</a></li>
+    </ul>
+</div>
+
 <a class="btn btn-danger" data-toggle="modal" href="#modal-delete">
-	<span class="fui-cross-16"></span> Delete this video
+  <span class="fui-cross-16"></span> Delete this video
 </a>
 
 <div class="modal hide fade" id="modal-delete">
@@ -56,6 +82,21 @@
   <div class="modal-footer">
     <a href="#" class="btn">Cancel</a>
     <a href="#" onclick="$('#modal-delete form').submit();" class="btn btn-danger"><span class="fui-cross-24"></span> Yes, delete this video</a>
+  </div>
+</div>
+
+<div class="modal hide fade" id="modal-subtitle">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Add subtitles</h3>
+  </div>
+  <div class="modal-body">
+    <div id="jquery-wrapped-fine-uploader">
+          
+    </div>
+
+  </div>
+  <div class="modal-footer">
   </div>
 </div>
 
@@ -87,4 +128,39 @@
 		})
 	</script>
 	<script src="http://releases.flowplayer.org/5.3.2/flowplayer.min.js"></script>
+  <script src="{{ asset('bundles/yannickmaheselfhostedvideos/js/jquery.fineuploader-3.3.0.min.js') }}"></script>
+  <script type="text/javascript">
+      $(document).ready(function () {
+        $('#jquery-wrapped-fine-uploader').fineUploader({
+          request: {
+            endpoint: '{{ path('yannick_mahe_self_hosted_videos_subtitle_add') }}',
+            inputName: '{{ subtitle_form.name }}[{{ subtitle_form.file.vars.name }}]',
+            params: {
+              '{{ subtitle_form.name }}[{{ subtitle_form.video_id.vars.name }}]': '{{ subtitle_form.video_id.vars.value }}',
+              '{{ subtitle_form.name }}[{{ subtitle_form._token.vars.name }}]': '{{ subtitle_form._token.vars.value }}'
+            }
+          },
+        failedUploadTextDisplay: {
+          mode: 'custom',
+          maxChars: 40,
+          responseProperty: 'error',
+          enableTooltip: true
+        },
+        multiple: true,
+        validation: {
+          allowedExtensions: ['srt']
+        },
+          classes: {
+            success: 'alert alert-success',
+            fail: 'alert alert-error'
+          },
+          template: '<div class="qq-uploader span7" style="width: 95%">' +
+                      '<pre class="qq-upload-drop-area span8"><span>{dragZoneText}</span></pre>' +
+                      '<div class="qq-upload-button btn btn-success btn-large" style="width: auto;"><span class="fui-plus-24"></span>  Upload new videos</div>' +
+                      '<span class="qq-drop-processing"><span>{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
+                      '<ul class="qq-upload-list" style="margin-top: 10px; text-align: center;"></ul>' +
+                    '</div>'
+        });
+      });
+    </script>
 {% endblock %}
