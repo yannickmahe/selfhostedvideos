@@ -104,4 +104,5 @@ fos_user:
 
 parameters:
     folders: #Folders from which you want to add videos via the web interface. Be advised these folders are scanned recursively, so a folder with a lot of levels of subfolders may take up a lot of you server's resources
-        - /media/yannick/Data/Incoming
+        - /var/lib/transmission-daemon/downloads
+
