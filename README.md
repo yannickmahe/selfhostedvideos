@@ -1,7 +1,7 @@
 Self Hosted Videos
 ==================
 
-v O.O1 alpha
+v 0.01 alpha
 
 A PHP web app to setup your own YouTube like site for your private videos. This allows you to have your video library accessible from anywhere, and have your videos be embeddable. This app is aimed at a private audience, therefore login is required and robots.txt disallows crawling from web browsers.
 

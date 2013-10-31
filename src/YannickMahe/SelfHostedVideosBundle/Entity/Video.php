@@ -351,19 +351,19 @@ class Video
 
             //Season & episode
             //Ordered so as to avoid false positives
-            if(preg_match('/S(\d{2})E(\d{2})E(\d{2})/', $videoNameCorr, $matches)){ //S08E11E12 double episode, season 8 ep 11 and 12
+            if(preg_match('/S(\d{2})E(\d{2})E(\d{2})/i', $videoNameCorr, $matches)){ //S08E11E12 double episode, season 8 ep 11 and 12
                 $delimiter = $matches[0];
                 $season = intval($matches[1]);
                 $episodes = array(intval($matches[2]),intval($matches[3]));
-            } elseif (preg_match('/S(\d{2})E(\d{2})/', $videoNameCorr, $matches)) { //S01E13
+            } elseif (preg_match('/S(\d{2})E(\d{2})/i', $videoNameCorr, $matches)) { //S01E13
                 $delimiter = $matches[0];
                 $season = intval($matches[1]);
                 $episodes = array(intval($matches[2]));
-            } elseif (preg_match('/(\d)x(\d{2})/', $videoNameCorr, $matches)) { //3x05
+            } elseif (preg_match('/(\d)x(\d{2})/i', $videoNameCorr, $matches)) { //3x05
                 $delimiter = $matches[0];
                 $season = intval($matches[1]);
                 $episodes = array(intval($matches[2]));
-            } elseif (preg_match('/(\d)(\d{2})/', $videoNameCorr, $matches)) { //819
+            } elseif (preg_match('/(\d)(\d{2})/i', $videoNameCorr, $matches)) { //819
                 $delimiter = $matches[0];
                 $season = intval($matches[1]);
                 $episodes = array(intval($matches[2]));
