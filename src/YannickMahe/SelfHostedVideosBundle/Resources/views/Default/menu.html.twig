@@ -15,10 +15,10 @@
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
   	{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
     <ul class="nav navbar-nav">
-		<li{% if current == 'list' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_list') }}"><span class="fui-video-24"></span> All videos</a></li>
-		<li{% if current == 'from_file' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_add_from_file') }}"><span class="fui-plus-24"></span> Add from file</a></li>
-		<li{% if current == 'upload' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_upload_page') }}"><span class="fui-plus-24"></span> Upload</a></li>
-		<li><a href="{{ path('fos_user_security_logout') }}"><span class="fui-lock-24"></span> Logout</a></li>
+		<li{% if current == 'list' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_list') }}"><i class="fa fa-video-camera"></i> All videos</a></li>
+		<li{% if current == 'from_file' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_add_from_file') }}"><i class="fa fa-folder-open"></i> </span> Add from file</a></li>
+		<li{% if current == 'upload' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_upload_page') }}"><i class="fa fa-upload"></i> </span> Upload</a></li>
+		<li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-unlock"></i>  Logout</a></li>
     </ul>
     <form class="navbar-form navbar-left" role="search" method="GET"  action="{{ path('yannick_mahe_self_hosted_videos_list') }}">
       <div class="form-group">

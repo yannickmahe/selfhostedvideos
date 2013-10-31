@@ -2,7 +2,7 @@
 		<li>{{ folder }}
 			<ul>
 				{% for video in videos %}
-					<li><span class="fui-video-24"></span> {{ video }}
+					<li><i class="fa fa-video-camera"></i> {{ video }}
 						<span class="" id="{{ video|replace({'/': '', '\\': '', '.': ''}) }}-error" style="color: #C0392B; font-weight: bold;"></span>
 						<a href="#" id="{{ video|replace({'/': '', '\\': '', '.': ''}) }}-success" style="color: #1ABC9C; font-weight: bold;"></a>
 						<br /> 
