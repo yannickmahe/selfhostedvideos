@@ -29,9 +29,9 @@
         $('#jquery-wrapped-fine-uploader').fineUploader({
           request: {
             endpoint: '{{ path('yannick_mahe_self_hosted_videos_upload') }}',
-            inputName: '{{ form.name }}[{{ form.file.vars.name }}]',
+            inputName: '{{ form.vars.name }}[{{ form.file.vars.name }}]',
             params: {
-            	'{{ form.name }}[{{ form._token.vars.name }}]': '{{ form._token.vars.value }}'
+            	'{{ form.vars.name }}[{{ form._token.vars.name }}]': '{{ form._token.vars.value }}'
             }
           },
 	      failedUploadTextDisplay: {

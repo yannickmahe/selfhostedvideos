@@ -142,10 +142,10 @@
         $('#jquery-wrapped-fine-uploader').fineUploader({
           request: {
             endpoint: '{{ path('yannick_mahe_self_hosted_videos_subtitle_add') }}',
-            inputName: '{{ subtitle_form.name }}[{{ subtitle_form.file.vars.name }}]',
+            inputName: '{{ subtitle_form.vars.name }}[{{ subtitle_form.file.vars.name }}]',
             params: {
-              '{{ subtitle_form.name }}[{{ subtitle_form.video_id.vars.name }}]': '{{ subtitle_form.video_id.vars.value }}',
-              '{{ subtitle_form.name }}[{{ subtitle_form._token.vars.name }}]': '{{ subtitle_form._token.vars.value }}'
+              '{{ subtitle_form.vars.name }}[{{ subtitle_form.video_id.vars.name }}]': '{{ subtitle_form.video_id.vars.value }}',
+              '{{ subtitle_form.vars.name }}[{{ subtitle_form._token.vars.name }}]': '{{ subtitle_form._token.vars.value }}'
             }
           },
         failedUploadTextDisplay: {
