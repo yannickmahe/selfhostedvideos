@@ -5,7 +5,7 @@
 	<div class="caption">
 		<h3>{{ video.name|truncate(20, true, '...') }}</h3>
 		<p class="filename">
-			<span class="fui-eye-16"></span> <a href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': video.id}) }}">{{ video.name }}</a>
+			<span class="fui-eye-16"></span> <a href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': video.id}) }}">{{ video.name|truncate(40,true,'...') }}</a>
 		</p>
 	</div>
 	

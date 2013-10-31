@@ -25,27 +25,24 @@
 </div>
 <hr />
 
-<a class="btn" id="smaller">-</a>
-<a class="btn" id="larger">+</a>
+<a class="btn btn-default" id="smaller">-</a>
+<a class="btn btn-default" id="larger">+</a>
 
 {% if previous %}
-  <a class="btn" title="{{ previous.name }}" href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': previous.id}) }}"><<</a>
+  <a class="btn btn-default" title="{{ previous.name }}" href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': previous.id}) }}"><<</a>
 {% endif %}
 
 {% if next %}
-  <a class="btn" title="{{ next.name }}" href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': next.id}) }}">>></a>
+  <a class="btn btn-default" title="{{ next.name }}" href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': next.id}) }}">>></a>
 {% endif %}
 
-<a class="btn" onclick="$('body').toggleClass('dark');">Toggle cinema mode</a>
+<a class="btn btn-default" onclick="$('body').toggleClass('dark');">Toggle cinema mode</a>
 
-<a class="btn btn-primary" href="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}">
-	Direct link
-</a>
+<a class="btn btn-primary" href="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}">Direct link</a>
 
 
-<div class="btn-group select select-block">
-    <i class="dropdown-arrow dropdown-arrow-inverse"></i>
-    <button class="btn dropdown-toggle clearfix btn-primary" data-toggle="dropdown"><span class="filter-option">Subtitles</span>&nbsp;<span class="caret"></span></button>
+<div class="btn-group">
+    <button class="btn dropdown-toggle btn-default" data-toggle="dropdown"><span class="filter-option">Subtitles</span>&nbsp;<span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-inverse" role="menu" style="overflow-y: auto;">
         {% if subtitle %}
           <li rel="0"><a href="{{ path('yannick_mahe_self_hosted_videos_video', {'video_id': video.id}) }}" class="">No subtitles</a></li>
@@ -58,9 +55,9 @@
           </li>
         {% endfor %}
         {% if video.subtitles|length > 0 %}
-          <li>&nbsp;</li>
+           <li class="divider"></li>
         {% endif %}
-        <li rel="1"><a href="#" onclick="$('#modal-subtitle').modal('show');" class="">Add new</a></li>
+        <li rel="1"><a href="#" onclick="$('#modal-subtitle').modal('show');" class=""><i class="fa fa-plus-circle"></i> Add new</a></li>
     </ul>
 </div>
 
@@ -68,7 +65,9 @@
   <span class="fui-cross-16"></span> Delete this video
 </a>
 
-<div class="modal hide fade" id="modal-delete">
+<div class="modal fade" id="modal-delete">
+  <div class="modal-dialog">
+  <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>Are you sure?</h3>
@@ -80,12 +79,16 @@
     </form> 
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn">Cancel</a>
     <a href="#" onclick="$('#modal-delete form').submit();" class="btn btn-danger"><span class="fui-cross-24"></span> Yes, delete this video</a>
+  </div>
+  </div>
   </div>
 </div>
 
-<div class="modal hide fade" id="modal-subtitle">
+<div class="modal fade" id="modal-subtitle">
+  <div class="modal-dialog">
+  <div class="modal-content">
+  <div class="modal-header">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3>Add subtitles</h3>
@@ -97,6 +100,8 @@
 
   </div>
   <div class="modal-footer">
+  </div>
+  </div>
   </div>
 </div>
 

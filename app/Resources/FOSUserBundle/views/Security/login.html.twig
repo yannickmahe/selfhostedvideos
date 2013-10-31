@@ -7,18 +7,18 @@
     	{{ error|trans({}, 'FOSUserBundle') }}
     </div>
 {% endif %}
-<div class="login-form">
+<div class="login-form col-md-4">
 <form action="{{ path("fos_user_security_check") }}" method="post">
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
 
-    <div class="control-group">
-        <input class="login-field" type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
-        <label class="login-field-icon fui-man-16" for="username"></label>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" />
     </div>
 
-    <div class="control-group">
-        <input type="password" class="login-field" id="password" name="_password" required="required" />
-        <label class="login-field-icon fui-lock-16" for="password"></label>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="_password" required="required" />
     </div>
     
 

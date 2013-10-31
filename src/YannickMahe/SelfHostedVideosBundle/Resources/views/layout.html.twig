@@ -19,8 +19,8 @@
 	  	background-color: black;
 	  }
 	</style>
-	{% include 'BraincraftedBootstrapBundle::_stylesheets.html.twig' %}
-	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/yannickmaheselfhostedvideos/css/flat-ui.css') }}">
+	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
 	{% block page_stylesheets %}{% endblock %}
 {% endblock %}
 
@@ -36,16 +36,7 @@
 {% endblock %}
 
 {% block javascripts %}
-	{% include 'BraincraftedBootstrapBundle::_html5shiv.html.twig' %}
-	{% include 'BraincraftedBootstrapBundle::_javascripts.html.twig' %}
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/application.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/bootstrap-tooltip.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/custom_checkbox_and_radio.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/custom_radio.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/jquery.icon-font-ie6.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/jquery-ui-1.10.0.custom.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/jquery.dropkick-1.0.0.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/jquery.tagsinput.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/jquery.placeholder.js') }}"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+	<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
 	{% block page_javascripts %}{% endblock %}
 {% endblock %}

@@ -1,28 +1,30 @@
+<nav class="navbar navbar-inverse" role="navigation">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="{{ path('yannick_mahe_self_hosted_videos_list') }}">Self Hosted Videos</a>
+  </div>
 
-<div class="navbar navbar-inverse">
-	<div class="navbar-inner">
-
-	{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-		<ul class="nav pull-right">
+  <!-- Collect the nav links, forms, and other content for toggling -->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  	{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    <ul class="nav navbar-nav">
 		<li{% if current == 'list' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_list') }}"><span class="fui-video-24"></span> All videos</a></li>
 		<li{% if current == 'from_file' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_add_from_file') }}"><span class="fui-plus-24"></span> Add from file</a></li>
 		<li{% if current == 'upload' %} class="active"{% endif %}><a href="{{ path('yannick_mahe_self_hosted_videos_upload_page') }}"><span class="fui-plus-24"></span> Upload</a></li>
 		<li><a href="{{ path('fos_user_security_logout') }}"><span class="fui-lock-24"></span> Logout</a></li>
-		<li>                
-		<li>
-               <form style="margin-left: 5px; margin-top: 2px; margin-bottom: 12px;" method="GET" action="{{ path('yannick_mahe_self_hosted_videos_list') }}" class="form-search pull-right">
-                       <input style="padding: 4px 6px; margin-top: 5px;" type="text" class="" name="q" value="{{ q }}" placeholder="Search video..." />
-                       <input type="submit" value="Go" class="btn btn-primary"/>
-               </form>
-        </li>
-		</ul>
+    </ul>
+    <form class="navbar-form navbar-left" role="search" method="GET"  action="{{ path('yannick_mahe_self_hosted_videos_list') }}">
+      <div class="form-group">
+        <input type="text" class="form-control"  name="q" value="{{ q }}" placeholder="Search video...">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
 	{% endif %}
-
-	<ul class="nav">
-		<li>
-			<a href="{{ path('yannick_mahe_self_hosted_videos_list') }}">Self Hosted Videos</a>
-		</li>
-
-	</ul>
-	</div>
-</div>
+  </div><!-- /.navbar-collapse -->
+</nav>
