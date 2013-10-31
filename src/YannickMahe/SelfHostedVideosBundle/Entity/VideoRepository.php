@@ -84,7 +84,7 @@ class VideoRepository extends EntityRepository
         		$vidSeason = $info['season'];
         		$vidEpisode = max($info['episodes']);
 
-        		if($vidEpisode > $max){
+        		if($vidSeason == $season && $vidEpisode > $max){
         			$max = $vidEpisode;
         			$return = $video;
         		}
