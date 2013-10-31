@@ -40,7 +40,7 @@
 
 <a class="btn btn-primary" href="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.webPath }}">Direct link</a>
 
-
+{% if video.subtitles|length > 0 %}
 <div class="btn-group">
     <button class="btn dropdown-toggle btn-default" data-toggle="dropdown"><span class="filter-option">Subtitles</span>&nbsp;<span class="caret"></span></button>
     <ul class="dropdown-menu dropdown-inverse" role="menu" style="overflow-y: auto;">
@@ -54,15 +54,18 @@
             </a>
           </li>
         {% endfor %}
-        {% if video.subtitles|length > 0 %}
+        
            <li class="divider"></li>
-        {% endif %}
+        
         <li rel="1"><a href="#" onclick="$('#modal-subtitle').modal('show');" class=""><i class="fa fa-plus-circle"></i> Add new</a></li>
     </ul>
 </div>
+{% else %}
+<a href="#" class="btn btn-default" onclick="$('#modal-subtitle').modal('show');" class=""><i class="fa fa-plus-circle"></i> Add subtitles</a>
+{% endif %}
 
 <a class="btn btn-danger" data-toggle="modal" href="#modal-delete">
-  <span class="fui-cross-16"></span> Delete this video
+  <i class="fa fa-times-circle"></i> Delete this video
 </a>
 
 <div class="modal fade" id="modal-delete">
@@ -70,10 +73,10 @@
   <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Are you sure?</h3>
+    <h4>Are you sure?</h4>
   </div>
   <div class="modal-body" style="text-align: center;">
-    <img style="margin-left: auto; margin-right: auto;" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.thumbnailWebPath }}" alt={{ video.name }}/>
+    <img style="margin-left: auto; margin-right: auto;" src="{{ app.request.scheme ~ '://' ~ app.request.host ~ '/' ~ video.thumbnailWebPath }}" alt="{{ video.name }}"/>
     <form method="POST" action="{{ path('yannick_mahe_self_hosted_videos_delete', {'video_id': video.id}) }}">
     	<input type="hidden" name="_method" value="DELETE" />
     </form> 
@@ -91,7 +94,7 @@
   <div class="modal-header">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Add subtitles</h3>
+    <h4>Add subtitles</h4>
   </div>
   <div class="modal-body">
     <div id="jquery-wrapped-fine-uploader">
