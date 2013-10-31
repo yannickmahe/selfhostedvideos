@@ -11,6 +11,7 @@ use FFMpeg\FFMpeg;
 use FFMpeg\FFProbe;
 
 use YannickMahe\SelfHostedVideosBundle\Entity\Video;
+use YannickMahe\SelfHostedVideosBundle\Entity\Subtitle;
 
 class DefaultController extends Controller
 {
@@ -91,11 +92,35 @@ class DefaultController extends Controller
     }
 
     //Video page
-    public function videoAction($video_id)
+    public function videoAction($video_id, $subtitle_id)
     {
         $em = $this->getDoctrineManager();
-        $video = $em->getRepository('YannickMaheSelfHostedVideosBundle:Video')->find($video_id);
-    	return $this->render('YannickMaheSelfHostedVideosBundle:Default:video.html.twig',array('video' => $video));
+        $repo = $em->getRepository('YannickMaheSelfHostedVideosBundle:Video');
+        $video = $repo->find($video_id);
+        $nextVideo = $repo->getNextInSeries($video);
+        $previousVideo = $repo->getPreviousInSeries($video);
+
+        $subtitle = new Subtitle();
+        $subtitle->setVideoId($video_id);
+
+        $subtitleForm = $this->createFormBuilder($subtitle)
+        ->add('file')
+        ->add('video_id')
+        ->getForm();
+
+        $videoSubtitle = false;
+        if($subtitle_id){
+            $subRepo = $em->getRepository('YannickMaheSelfHostedVideosBundle:Subtitle');
+            $videoSubtitle = $subRepo->find($subtitle_id);
+        }     
+
+
+    	return $this->render('YannickMaheSelfHostedVideosBundle:Default:video.html.twig',array('video' => $video, 
+                                                                                               'next' => $nextVideo, 
+                                                                                               'previous' => $previousVideo,
+                                                                                               'subtitle_form' => $subtitleForm->createView(),
+                                                                                               'subtitle' => $videoSubtitle,
+                                                                                               ));
     }
 
     public function deleteAction($video_id)

@@ -35,7 +35,7 @@ class Video
      *
      * @ORM\Column(type="string", length=511, nullable=true)
      */
-    public $path;    
+    private $path;    
 
     /**
      * @Assert\File(maxSize="5000000000")
@@ -55,6 +55,14 @@ class Video
      * @ORM\Column(name="height", type="integer")
      */
     private $height = 0;
+
+    private $info;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Subtitle", mappedBy="video", cascade={"remove", "persist"})
+     */
+    protected $subtitles;
+
 
 
     /**
@@ -331,6 +339,71 @@ class Video
         }
     }
 
+    public function getInfo(){
+        if(!is_null($this->info)){
+            return $this->info;
+        } else {
+            $videoNameCorr = str_replace('x264', '', $this->name);
+            $videoNameCorr = str_replace('.mp4', '', $videoNameCorr);
+            $videoNameCorr = str_replace('h264', '', $videoNameCorr);
+
+            $matches = array();
+
+            //Season & episode
+            //Ordered so as to avoid false positives
+            if(preg_match('/S(\d{2})E(\d{2})E(\d{2})/', $videoNameCorr, $matches)){ //S08E11E12 double episode, season 8 ep 11 and 12
+                $delimiter = $matches[0];
+                $season = intval($matches[1]);
+                $episodes = array(intval($matches[2]),intval($matches[3]));
+            } elseif (preg_match('/S(\d{2})E(\d{2})/', $videoNameCorr, $matches)) { //S01E13
+                $delimiter = $matches[0];
+                $season = intval($matches[1]);
+                $episodes = array(intval($matches[2]));
+            } elseif (preg_match('/(\d)x(\d{2})/', $videoNameCorr, $matches)) { //3x05
+                $delimiter = $matches[0];
+                $season = intval($matches[1]);
+                $episodes = array(intval($matches[2]));
+            } elseif (preg_match('/(\d)(\d{2})/', $videoNameCorr, $matches)) { //819
+                $delimiter = $matches[0];
+                $season = intval($matches[1]);
+                $episodes = array(intval($matches[2]));
+            } else {
+                //Not found !
+            }
+
+            $nameRaw = substr($videoNameCorr, 0,strpos($videoNameCorr, $delimiter));
+
+            //Spliters : - _ . 
+            $nameRaw = str_replace('-', ' ', $nameRaw);
+            $nameRaw = str_replace('_', ' ', $nameRaw);
+            $nameRaw = str_replace('.', ' ', $nameRaw);
+
+            //CamelCase
+            $nameProcessed = $nameRaw[0];
+            for($i = 1; $i < strlen($nameRaw); $i++){
+                if(
+                        $nameRaw[$i-1] != ' '      //Previous is not a space
+                    &&  ctype_upper($nameRaw[$i])  //And next is upper case
+                ){
+                    //Then it is next word
+                    $nameProcessed[strlen($nameProcessed)] = ' ';
+                    $nameProcessed[strlen($nameProcessed)] = $nameRaw[$i];
+                } else {
+                    $nameProcessed[strlen($nameProcessed)] = $nameRaw[$i];
+                }
+            }
+
+            $nameProcessed = trim($nameProcessed);
+
+            $this->info = array(
+                    'series_name' => $nameProcessed,
+                    'season' => $season,
+                    'episodes' => $episodes,
+                );
+            return $this->info;
+        }
+    }
+
     public function postProcess($ffmpeg, $ffprobe, OutputInterface $output = null){
         //Check format
         $info = @json_decode($ffprobe->probeStreams($this->getAbsolutePath()));//Warning silenced for dev env
@@ -373,5 +446,45 @@ class Video
         
         $this->generateThumbnail($ffmpeg, 300, 200);//TODO: put thumbnail size in conf
         $this->setDimensions($ffprobe);
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->subtitles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add subtitles
+     *
+     * @param \YannickMahe\SelfHostedVideosBundle\Entity\Subtitle $subtitles
+     * @return Video
+     */
+    public function addSubtitle(\YannickMahe\SelfHostedVideosBundle\Entity\Subtitle $subtitles)
+    {
+        $this->subtitles[] = $subtitles;
+    
+        return $this;
+    }
+
+    /**
+     * Remove subtitles
+     *
+     * @param \YannickMahe\SelfHostedVideosBundle\Entity\Subtitle $subtitles
+     */
+    public function removeSubtitle(\YannickMahe\SelfHostedVideosBundle\Entity\Subtitle $subtitles)
+    {
+        $this->subtitles->removeElement($subtitles);
+    }
+
+    /**
+     * Get subtitles
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getSubtitles()
+    {
+        return $this->subtitles;
     }
 }
