@@ -3,6 +3,7 @@
 namespace YannickMahe\SelfHostedVideosBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use FFMpeg\Coordinate\TimeCode as TimeCode;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -259,8 +260,8 @@ class Video
             Throw new \Exception("Video hasn't been uploaded");
         }
         //Extract thumbnail
-        $ffmpeg->open($this->getAbsolutePath())
-               ->extractImage(5,$this->getThumbnailAbsolutePath());
+        $timecode = new TimeCode(0,0,5,0);
+        $ffmpeg->open($this->getAbsolutePath())->frame($timecode)->save($this->getThumbnailAbsolutePath());
 
         //Resize to required dimensions, keeping ratio
         $size = getimagesize($this->getThumbnailAbsolutePath());
@@ -297,25 +298,19 @@ class Video
         if(!is_file($this->getAbsolutePath())){
             Throw new \Exception("Video hasn't been uploaded");
         }
-        $info =  @json_decode($ffprobe->probeStreams($this->getAbsolutePath()));//Warning silenced for dev env
+        $streams = $ffprobe->streams($this->getAbsolutePath());//Warning silenced for dev env
 
         $found = false;
-        foreach ($info as $infoSub) {
-            if(property_exists($infoSub, 'width')){
-                $sizeInfo = $infoSub;
-                $found = true;
-                break;
+        foreach ($streams as $stream) {
+            if($stream->isVideo()){
+                $dimension = $stream->getDimensions();
+                $this->setWidth($dimension->getWidth());
+                $this->setHeight($dimension->getHeight());
+                return;
             }
         }
-        if(!$found){
-            Throw new \Exception("Dimensions can't be determined");
-        }
-
-        $width = $sizeInfo->width;
-        $height = $sizeInfo->height;
+        Throw new \Exception("Dimensions can't be determined");
         
-        $this->setWidth($width);
-        $this->setHeight($height);
     }
 
     /**
@@ -406,11 +401,12 @@ class Video
 
     public function postProcess($ffmpeg, $ffprobe, OutputInterface $output = null){
         //Check format
-        $info = @json_decode($ffprobe->probeStreams($this->getAbsolutePath()));//Warning silenced for dev env
+        $streams = $ffprobe->streams($this->getAbsolutePath());//Warning silenced for dev env
         $found = false;
-        foreach ($info as $infoSub) {
-            if($infoSub->codec_type == 'video'){
-                $codec_name = $infoSub->codec_name;
+
+        foreach ($streams as $stream) {
+            if($stream->isVideo()){
+                $codec_name = $stream->get('codec_name');
                 $found = true;
                 break;
             }
