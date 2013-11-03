@@ -57,10 +57,8 @@ class AddCommand extends ContainerAwareCommand
             $em->flush();
             $video->moveFromDisc($filepath);
 
-            $logger = new Logger('MyLogger');
-            $logger->pushHandler(new NullHandler());
-            $ffmpeg = FFMpeg::load($logger);
-            $ffprobe = FFProbe::load($logger);
+            $ffmpeg = FFMpeg::create();
+            $ffprobe = FFProbe::create();
             
             $video->postProcess($ffmpeg,$ffprobe);
             
