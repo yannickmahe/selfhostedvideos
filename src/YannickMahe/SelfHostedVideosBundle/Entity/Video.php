@@ -300,7 +300,6 @@ class Video
         }
         $streams = $ffprobe->streams($this->getAbsolutePath());//Warning silenced for dev env
 
-        $found = false;
         foreach ($streams as $stream) {
             if($stream->isVideo()){
                 $dimension = $stream->getDimensions();
@@ -399,9 +398,9 @@ class Video
             $nameProcessed = trim($nameProcessed);
 
             $this->info = array(
-                    'series_name' => ucwords($nameProcessed),
-                    'season' => $season,
-                    'episodes' => $episodes,
+                    'series_name'   => ucwords($nameProcessed),
+                    'season'        => $season,
+                    'episodes'      => $episodes,
                 );
             return $this->info;
         }
