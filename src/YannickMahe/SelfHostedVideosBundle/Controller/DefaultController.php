@@ -236,6 +236,25 @@ class DefaultController extends Controller
         return $response;
     }
 
+    public function seriesJsonAction(){
+        $em = $this->getDoctrineManager();            
+        $dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v ORDER BY v.id DESC";
+        $query = $em->createQuery($dql);
+        $videos = $query->getResult();
+
+        $result = array();
+        foreach ($videos as $video) {
+            $info = $video->getInfo();
+            if($info['series_name'] != '' && !in_array($info['series_name'], $result)){
+                $result[] = $info['series_name'];
+            }
+        }
+
+        $response = new Response(json_encode($result));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
     private function getDoctrineManager(){
         return $this->getDoctrine()->getManager();
     }

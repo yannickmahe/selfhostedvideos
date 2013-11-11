@@ -34,6 +34,13 @@ yannick_mahe_self_hosted_videos_videos_json:
     requirements:
         _method:  GET
 
+yannick_mahe_self_hosted_videos_series_json:
+    pattern:  /series.json
+    defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:seriesJson }
+    requirements:
+        _method:  GET
+
+
 yannick_mahe_self_hosted_videos_delete:
     pattern:  /video/delete/{video_id}
     defaults: { _controller: YannickMaheSelfHostedVideosBundle:Default:delete }

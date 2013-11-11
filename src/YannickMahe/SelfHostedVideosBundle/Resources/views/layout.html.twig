@@ -21,6 +21,7 @@
 	</style>
 	<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="{{ asset('bundles/yannickmaheselfhostedvideos/css/typeahead.js-bootstrap.css') }}">
 	{% block page_stylesheets %}{% endblock %}
 {% endblock %}
 
@@ -38,5 +39,20 @@
 {% block javascripts %}
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script type="text/javascript" src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{ asset('bundles/yannickmaheselfhostedvideos/js/typeahead.min.js') }}"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+  	  $('input#search-field').typeahead([
+  	  	{
+			name: 'videos',
+			prefetch: "{{ path('yannick_mahe_self_hosted_videos_videos_json') }}"
+	  	},
+	  	{
+	  		name: 'series',
+	  		prefetch: "{{ path('yannick_mahe_self_hosted_videos_series_json') }}"
+	  	}
+	  ]);
+	})
+	</script>
 	{% block page_javascripts %}{% endblock %}
 {% endblock %}

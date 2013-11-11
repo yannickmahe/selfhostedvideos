@@ -346,6 +346,10 @@ class Video
 
             //Season & episode
             //Ordered so as to avoid false positives
+            $delimiter = ' ';
+            $season = null;
+            $episodes = null;
+
             if(preg_match('/S(\d{2})E(\d{2})E(\d{2})/i', $videoNameCorr, $matches)){ //S08E11E12 double episode, season 8 ep 11 and 12
                 $delimiter = $matches[0];
                 $season = intval($matches[1]);
@@ -374,24 +378,28 @@ class Video
             $nameRaw = str_replace('.', ' ', $nameRaw);
 
             //CamelCase
-            $nameProcessed = $nameRaw[0];
-            for($i = 1; $i < strlen($nameRaw); $i++){
-                if(
-                        $nameRaw[$i-1] != ' '      //Previous is not a space
-                    &&  ctype_upper($nameRaw[$i])  //And next is upper case
-                ){
-                    //Then it is next word
-                    $nameProcessed[strlen($nameProcessed)] = ' ';
-                    $nameProcessed[strlen($nameProcessed)] = $nameRaw[$i];
-                } else {
-                    $nameProcessed[strlen($nameProcessed)] = $nameRaw[$i];
+            if(strlen($nameRaw) > 0){
+                $nameProcessed = $nameRaw[0];
+                for($i = 1; $i < strlen($nameRaw); $i++){
+                    if(
+                            $nameRaw[$i-1] != ' '      //Previous is not a space
+                        &&  ctype_upper($nameRaw[$i])  //And next is upper case
+                    ){
+                        //Then it is next word
+                        $nameProcessed[strlen($nameProcessed)] = ' ';
+                        $nameProcessed[strlen($nameProcessed)] = $nameRaw[$i];
+                    } else {
+                        $nameProcessed[strlen($nameProcessed)] = $nameRaw[$i];
+                    }
                 }
+            } else {
+                $nameProcessed = '';
             }
 
             $nameProcessed = trim($nameProcessed);
 
             $this->info = array(
-                    'series_name' => $nameProcessed,
+                    'series_name' => ucwords($nameProcessed),
                     'season' => $season,
                     'episodes' => $episodes,
                 );
