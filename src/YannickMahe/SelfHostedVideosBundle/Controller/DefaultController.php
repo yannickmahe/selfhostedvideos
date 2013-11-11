@@ -220,6 +220,22 @@ class DefaultController extends Controller
         return $this->render('YannickMaheSelfHostedVideosBundle:Default:add_from_file.html.twig', array('folders' => $folders));
     }
 
+    public function videosJsonAction(){
+        $em = $this->getDoctrineManager();            
+        $dql = "SELECT v FROM YannickMaheSelfHostedVideosBundle:Video v ORDER BY v.id DESC";
+        $query = $em->createQuery($dql);
+        $videos = $query->getResult();
+
+        $result = array();
+        foreach ($videos as $video) {
+            $result[] = $video->getName();
+        }
+
+        $response = new Response(json_encode($result));
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
     private function getDoctrineManager(){
         return $this->getDoctrine()->getManager();
     }
