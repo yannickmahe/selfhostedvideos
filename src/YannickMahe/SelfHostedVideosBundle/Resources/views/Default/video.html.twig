@@ -26,6 +26,7 @@
 <hr />
 
 <a class="btn btn-default" id="smaller">-</a>
+<a class="btn btn-default" id="default-size">0</a>
 <a class="btn btn-default" id="larger">+</a>
 
 {% if previous %}
@@ -117,12 +118,15 @@
 			$('.flowplayer').css('width',Math.min(vidWidth,{{ video.width }}));
       $('#smaller').click(function(){
         var width = $('.flowplayer').width();
-        console.log(width);
         if(width > 100){
           width-=10;
           console.log(width);
           $('.flowplayer').width(width);
         }
+        return false;
+      });
+      $('#default-size').click(function(){
+        $('.flowplayer').width({{ video.width }});
         return false;
       });
       $('#larger').click(function(){
